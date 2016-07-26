@@ -4,7 +4,14 @@
   "description": "Grocery price comparison app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "src": "babel src --presets es2015-node4,stage-0 --plugins transform-runtime --out-dir lib",
+    "pack": "webpack --config=config/webpack.js",
+    "build": "npm run build-src && npm run pack",
+    "watch-pack": "webpack --watch --config=config/webpack.js",
+    "watch-src": "babel --presets es2015-node4,stage-0 -w src --out-dir lib",
+    "watch-server": "nodemon ./lib/server/index.js --exec babel-node",
+    "watch-test": "mocha -w --require ./test/setup ./test",
+    "dev": "concurrently 'npm run watch-src' 'npm run watch-pack' 'npm run watch-server'"
   },
   "repository": {
     "type": "git",

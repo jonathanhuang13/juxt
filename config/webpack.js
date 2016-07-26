@@ -15,7 +15,7 @@ module.exports = {
       'webpack-dev-server/client?http://0.0.0.0:8080',
       'webpack/hot/only-dev-server',
       'babel-polyfill',
-      path.join(APP_ROOT, "/ui/index.jsx")
+      path.join(APP_ROOT, "/ui/index.js")
     ]
   },
 
