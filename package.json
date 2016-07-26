@@ -1,0 +1,26 @@
+{
+  "name": "juxt",
+  "version": "1.0.0",
+  "description": "Grocery price comparison app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonathanhuang13/juxt.git"
+  },
+  "author": "Jonathan Huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonathanhuang13/juxt/issues"
+  },
+  "homepage": "https://github.com/jonathanhuang13/juxt#readme",
+  "devDependencies": {
+    "pg": "^6.0.3",
+    "react": "^15.2.1",
+    "react-redux": "^4.4.5",
+    "redux-saga": "^0.11.0",
+    "webpack": "^1.13.1"
+  }
+}
