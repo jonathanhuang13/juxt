@@ -1,9 +1,9 @@
-import { knex } from '../src/book';
-import * as api from '../src/store/api';
+import { knex } from '../src/server/book';
+import * as api from '../src/server/store/api';
 import uuid from 'node-uuid';
 import should from 'should';
 
-describe('store api', async () => {
+describe('stores api', async () => {
   beforeEach((done) => {
     knex.migrate.rollback()
     .then(() => {

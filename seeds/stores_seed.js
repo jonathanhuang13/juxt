@@ -2,7 +2,7 @@ import uuid from 'node-uuid';
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('stores').del()
     .then(function () {
       return Promise.all([
         // Inserts seed entries
