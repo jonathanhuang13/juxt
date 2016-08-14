@@ -101,18 +101,22 @@ describe('items api', async () => {
     const unit   = 'pint';
     const tags   = ['non-dairy', 'organic'];
 
+    const store     = await knex('stores').where('name', 'Uwajimaya');
+    const store_ids = [ store[0].id ];
+
     const user = {
       name: 'Jonathan', isSuper: true 
     };
 
     const payload = {
-      id, title, brand, price, amount, unit, tags
+      id, title, brand, price, amount, unit, tags, store_ids
     };
 
     await api.create(user, payload);
 
+    // Check items table
     var createdItem = await knex('items').where('id', id);
-    createdItem = createdItem[0];
+    createdItem     = createdItem[0];
 
     createdItem.title.should.equal(title);
     createdItem.brand.should.equal(brand);
@@ -123,6 +127,15 @@ describe('items api', async () => {
     for (var i = 0; i < tags.length; i++) {
       createdItem.tags[i].should.equal(tags[i]);
     }
+
+    // Check items_stores table
+    createdItem = await knex('items_store').where('item_id', id);
+    createdItem = createdItem[0];
+
+    var mapped_store = await knex('stores').where('id', createdItem.store_id);
+    mapped_store     = mapped_store[0];
+
+    store.name.should.equal('Uwajimaya');
   });
 
   it('super - read', async () => {
@@ -139,20 +152,31 @@ describe('items api', async () => {
   it('super - update', async () => {
     const item = await knex('items').where('title', 'Chicken breast');
     const id   = item[0].id;
+
+    const store = await knex('stores').where('name', 'Trader Joes');
+    const store_id = store[0].id;
     const user = { name: 'Jonathan', isSuper: true };
 
     item[0].unit.should.equal('breasts');
     item[0].tags[0].should.equal('frozen');
 
     const payload = {
-      id, amount: 6, unit: 'none'
+      id, amount: 6, unit: 'none', store_ids: [ store_id ]
     };
 
     await api.update(user, { id }, payload);
 
-    const updatedItem = await knex('items').where('title', 'Chicken breast');
+    // Check items table
+    var updatedItem = await knex('items').where('title', 'Chicken breast');
     updatedItem[0].unit.should.equal('none');
     updatedItem[0].amount.should.equal(6);
+
+    // Check items_map table
+    updatedItem = await knex('items_map').where('item_id', id);
+    updatedItem = updatedItem[0];
+
+    var mappedStore = await knex('stores').where('id', updatedItem.store_id);
+    mappedStore[0].name.should.equal('Trader Joes');
   });
 
   it('super - del', async () => {
