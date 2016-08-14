@@ -39,3 +39,6 @@ jspm_packages
 # Public and lib
 public/*
 lib/*
+
+# Temporary
+*.swp
