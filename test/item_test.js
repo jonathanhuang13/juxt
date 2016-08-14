@@ -129,13 +129,13 @@ describe('items api', async () => {
     }
 
     // Check items_stores table
-    createdItem = await knex('items_store').where('item_id', id);
+    createdItem = await knex('items_stores').where('item_id', id);
     createdItem = createdItem[0];
 
     var mapped_store = await knex('stores').where('id', createdItem.store_id);
     mapped_store     = mapped_store[0];
 
-    store.name.should.equal('Uwajimaya');
+    mapped_store.name.should.equal('Uwajimaya');
   });
 
   it('super - read', async () => {
@@ -149,7 +149,32 @@ describe('items api', async () => {
     model.get('price').should.equal(8.59);
   });
 
-  it('super - update', async () => {
+  it('super - update item only', async () => {
+    const item = await knex('items').where('title', 'Chicken breast');
+    const id   = item[0].id;
+    const user = { name: 'Jonathan', isSuper: true };
+
+    item[0].unit.should.equal('breasts');
+    item[0].tags[0].should.equal('frozen');
+
+    const payload = {
+      id, amount: 6, unit: 'none'
+    };
+
+    await api.update(user, { id }, payload);
+
+    // Check items table
+    var updatedItem = await knex('items').where('title', 'Chicken breast');
+    updatedItem[0].unit.should.equal('none');
+    updatedItem[0].amount.should.equal(6);
+
+    // Check items_map table
+    updatedItem = await knex('items_stores').where('item_id', id);
+    updatedItem = updatedItem[0];
+    should.not.exist(updatedItem);
+  });
+
+  it('super - update item and store', async () => {
     const item = await knex('items').where('title', 'Chicken breast');
     const id   = item[0].id;
 
@@ -172,7 +197,7 @@ describe('items api', async () => {
     updatedItem[0].amount.should.equal(6);
 
     // Check items_map table
-    updatedItem = await knex('items_map').where('item_id', id);
+    updatedItem = await knex('items_stores').where('item_id', id);
     updatedItem = updatedItem[0];
 
     var mappedStore = await knex('stores').where('id', updatedItem.store_id);

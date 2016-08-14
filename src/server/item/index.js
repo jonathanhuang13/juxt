@@ -1,3 +1,3 @@
 export api from './api';
 export valid from './valid';
-export model from '../item';
+export { Item } as model from '../book';

@@ -1,5 +1,5 @@
 import * as valid from './valid'; 
-import Store from '../store';
+import { Store } from '../book';
 
 function getValidator(user) {
   if (user.isSuper) return valid.sup;

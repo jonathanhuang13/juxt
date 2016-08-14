@@ -1,5 +1,5 @@
 import * as valid from './valid';
-import Item from '../item';
+import { Item } from '../book';
 
 function getValidator(user) {
   if (user.isSuper) return valid.sup;
@@ -11,12 +11,19 @@ function getValidator(user) {
 export async function create(user, payload) {
   const { create } = getValidator(user);
   if (!create) return null;
+  if (!payload.store_ids) return null;
 
   const options = {
     method: 'insert',
   };
 
-  return (new Item(payload)).save(null, options);
+  const store_ids = payload.store_ids;
+  delete payload.store_ids;
+
+  var item = await new Item(payload).save(null, options);
+  item.stores().attach(store_ids);
+
+  return item;
 }
 
 export async function read(user, { id }) {
@@ -38,7 +45,17 @@ export async function update(user, { id }, payload) {
     method: 'update',
   };
 
-  return (new Item({ id})).save(payload, options);
+  if (!payload.store_ids) {
+    return (new Item({ id})).save(payload, options);
+  } else {
+    const store_ids = payload.store_ids;
+    delete payload.store_ids;
+
+    var item = await new Item(payload).save(payload, options);
+    item.stores().attach(store_ids);
+
+    return item;
+  }
 }
 
 export async function del(user, { id }) {
