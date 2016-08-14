@@ -62,8 +62,8 @@ describe('items api', async () => {
 
   it('normal - update', async () => {
     const item = await knex('items').where('title', 'Chicken breast');
-    const id     = item[0].id;
-    const user   = { name: 'Jonathan', isSuper: false };
+    const id   = item[0].id;
+    const user = { name: 'Jonathan', isSuper: false };
 
     item[0].unit.should.equal('breasts');
     item[0].tags[0].should.equal('frozen');
@@ -76,11 +76,11 @@ describe('items api', async () => {
 
     const updatedItem = await knex('items').where('title', 'Chicken breast');
     updatedItem[0].unit.should.equal('breasts');
-    updatedItem[0].amount.should.equal(6);
+    updatedItem[0].amount.should.equal(4);
   });
 
   it('normal - del', async () => {
-    var item  = await knex('items').where('title', 'Strawberry');
+    var item   = await knex('items').where('title', 'Strawberry');
     const id   = item[0].id;
     const user = { name: 'Jonathan', isSuper: false };
 
@@ -111,24 +111,24 @@ describe('items api', async () => {
 
     await api.create(user, payload);
 
-    var createdStore = await knex('stores').where('id', id);
-    createdStore = createdStore[0];
+    var createdItem = await knex('items').where('id', id);
+    createdItem = createdItem[0];
 
-    createdStore.title.should.equal(title);
-    createdStore.brand.should.equal(brand);
-    createdStore.price.should.equal(price);
-    createdStore.amount.should.equal(amount);
-    createdStore.unit.should.equal(unit);
+    createdItem.title.should.equal(title);
+    createdItem.brand.should.equal(brand);
+    createdItem.price.should.equal(price);
+    createdItem.amount.should.equal(amount);
+    createdItem.unit.should.equal(unit);
 
     for (var i = 0; i < tags.length; i++) {
-      createdStore.tags[i].should.equal(tags[i]);
+      createdItem.tags[i].should.equal(tags[i]);
     }
   });
 
   it('super - read', async () => {
     const item = await knex('items').where('title', 'Strawberry');
     const id   = item[0].id;
-    const user = { name: 'Jonathan', isSuper: false };
+    const user = { name: 'Jonathan', isSuper: true };
 
     const model = await api.read(user, { id });
 
@@ -138,8 +138,8 @@ describe('items api', async () => {
 
   it('super - update', async () => {
     const item = await knex('items').where('title', 'Chicken breast');
-    const id     = item[0].id;
-    const user   = { name: 'Jonathan', isSuper: false };
+    const id   = item[0].id;
+    const user = { name: 'Jonathan', isSuper: true };
 
     item[0].unit.should.equal('breasts');
     item[0].tags[0].should.equal('frozen');
@@ -158,14 +158,14 @@ describe('items api', async () => {
   it('super - del', async () => {
     var item  = await knex('items').where('title', 'Strawberry');
     const id   = item[0].id;
-    const user = { name: 'Jonathan', isSuper: false };
+    const user = { name: 'Jonathan', isSuper: true };
 
     item.length.should.be.above(0);
 
     await api.del(user, { id });
 
     item = await knex('items').where('title', 'Strawberry');
-    store.length.should.equal(0);
+    item.length.should.equal(0);
   });
 
 });
