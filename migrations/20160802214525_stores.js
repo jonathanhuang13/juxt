@@ -15,7 +15,7 @@ export async function up(knex, Promise) {
   });
 
   await knex.schema.createTable('stores', t => {
-    t.uuid('id');
+    t.uuid('id').unique();
     timestamps(t, knex);
 
     t.string('name');
@@ -29,7 +29,7 @@ export async function up(knex, Promise) {
   });
 
   await knex.schema.createTable('items', t => {
-    t.uuid('id');
+    t.uuid('id').unique();
     timestamps(t, knex);
 
     t.uuid('creator_id');
@@ -38,13 +38,33 @@ export async function up(knex, Promise) {
     t.string('normalized_title');
     t.date('date');
     t.string('brand');
-    t.string('price');
-    t.string('amount');
+    t.float('price');
+    t.float('amount');
+    t.string('unit');
     t.specificType('tags', 'text[]');
+  });
+
+  await knex.schema.createTable('items_stores_map', t => {
+    t.uuid('item_id')
+     .references('id')
+     .inTable('items')
+     .onUpdate('CASCADE');
+
+    t.uuid('store_id')
+     .references('id')
+     .inTable('stores')
+     .onUpdate('CASCADE')
+     .onDelete('CASCADE');
+
+    timestamps(t, knex);
+
+    t.integer('amount');
+    t.primary(['item_id', 'store_id']);
   });
 };
 
 export async function down(knex, Promise) {
+  await knex.schema.dropTableIfExists('items_stores_map');
   await knex.schema.dropTableIfExists('users');
   await knex.schema.dropTableIfExists('stores');
   await knex.schema.dropTableIfExists('items');
