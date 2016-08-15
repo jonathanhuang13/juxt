@@ -21,7 +21,7 @@ export async function create(user, payload) {
   delete payload.store_ids;
 
   var item = await new Item(payload).save(null, options);
-  item.stores().attach(store_ids);
+  await item.stores().attach(store_ids);
 
   return item;
 }
@@ -46,13 +46,14 @@ export async function update(user, { id }, payload) {
   };
 
   if (!payload.store_ids) {
-    return (new Item({ id})).save(payload, options);
+    return (new Item({ id })).save(payload, options);
   } else {
     const store_ids = payload.store_ids;
     delete payload.store_ids;
 
-    var item = await new Item(payload).save(payload, options);
-    item.stores().attach(store_ids);
+
+    var item = await new Item({ id }).save(payload, options);
+    await item.stores().attach(store_ids);
 
     return item;
   }

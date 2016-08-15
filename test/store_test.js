@@ -136,8 +136,8 @@ describe('stores api', async () => {
 
   it('super - update', async () => {
     const store = await knex('stores').where('name', 'Trader Joes');
-    const id     = store[0].id;
-    const user   = { name: 'Jonathan', isSuper: true };
+    const id    = store[0].id;
+    const user  = { name: 'Jonathan', isSuper: true };
 
     store[0].acronym.should.equal('TJ');
     store[0].state.should.equal('WA');

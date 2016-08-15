@@ -47,7 +47,8 @@ export async function up(knex, Promise) {
   await knex.schema.createTable('items_stores', t => {
     t.uuid('item_id')
      .references('items.id')
-     .onUpdate('CASCADE');
+     .onUpdate('CASCADE')
+     .onDelete('CASCADE');
 
     t.uuid('store_id')
      .references('stores.id')
@@ -55,8 +56,6 @@ export async function up(knex, Promise) {
      .onDelete('CASCADE');
 
     timestamps(t, knex);
-
-    t.integer('amount');
     t.primary(['item_id', 'store_id']);
   });
 };
