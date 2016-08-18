@@ -7,8 +7,7 @@ import { router as UserRouter } from './user/routes';
 
 const app = new Koa();
 const router = require('koa-router')();
-
-const user = { name: 'Jonathan', isSuper: 'true' };
+const bodyParser = require('koa-bodyparser');
 
 router.get('/', async (ctx) => {
   ctx.body = 'Welcome to the server!!';
