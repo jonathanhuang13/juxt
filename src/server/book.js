@@ -4,12 +4,12 @@ export const knex = require('knex')(require('../../knexfile')[env]);
 export const bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');
 
-export var User = bookshelf.Model.extend({
+export const User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
 });
 
-export var Store = bookshelf.Model.extend({
+export const Store = bookshelf.Model.extend({
   tableName: 'stores',
   hasTimestamps: true,
   items: function() {
@@ -17,7 +17,7 @@ export var Store = bookshelf.Model.extend({
   }
 });
 
-export var Item  = bookshelf.Model.extend({
+export const Item  = bookshelf.Model.extend({
   tableName: 'items',
   hasTimestamps: true,
   stores: function() {
