@@ -38,9 +38,6 @@ export async function up(knex, Promise) {
     t.string('normalized_title');
     t.date('date');
     t.string('brand');
-    t.float('price');
-    t.float('amount');
-    t.string('unit');
     t.specificType('tags', 'text[]');
   });
 
@@ -56,6 +53,9 @@ export async function up(knex, Promise) {
      .onDelete('CASCADE');
 
     timestamps(t, knex);
+    t.float('price');
+    t.float('amount');
+    t.string('unit');
     t.primary(['item_id', 'store_id']);
   });
 };

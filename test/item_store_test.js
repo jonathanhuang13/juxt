@@ -1,7 +1,7 @@
 import { knex } from '../src/server/book';
-import * as item_api from '../src/server/item/api';
-import * as store_api from '../src/server/store/api';
-import * as juxt_api from '../src/server/juxt/api';
+import * as api from '../src/server/store_item/api';
+import * as itemApi from '../src/server/item/api';
+import * as storeApi from '../src/server/store/api';
 import uuid from 'node-uuid';
 import should from 'should';
 
@@ -26,10 +26,43 @@ describe('items_store api', async () => {
     });
   });
 
-  it('get one item with multiple stores', async () => {
-    // Updates item and items_stores
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
+  it('create', async () => {
+    const item    = await knex('items').where('title', 'Strawberry');
+    const item_id = item[0].id;
+    const price   = 3.49;
+    const amount  = 4;
+    const unit    = 'pint';
+
+    const store   = await knex('stores').where('name', 'Uwajimaya');
+    const store_id = store[0].id 
+
+    const user = {
+      name: 'Jonathan', isSuper: true 
+    };
+
+    const payload = {
+      item_id, store_id, price, amount, unit
+    };
+
+    await api.create(user, payload);
+
+    const query   = { item_id, store_id };
+    var storeItem = await knex('items_stores').where(query);
+    storeItem     = storeItem[0];
+
+    storeItem.price.should.equal(price);
+    storeItem.amount.should.equal(amount);
+    storeItem.unit.should.equal(unit);
+
+    var mappedStore = await knex('stores').where('id', storeItem.store_id);
+    mappedStore     = mappedStore[0];
+
+    mappedStore.name.should.equal('Uwajimaya');
+  });
+
+  it('create - one item with multiple stores', async () => {
+    const item    = await knex('items').where('title', 'Chicken breast');
+    const item_id = item[0].id;
 
     const store1    = await knex('stores').where('name', 'Trader Joes');
     const store1_id = store1[0].id;
@@ -40,22 +73,50 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
-    };
+    const payload = { item_id, store_id: store1_id, price: 7.99, amount: 6, unit: 'breasts' };
 
-    await item_api.update(user, { id }, payload);
+    await api.createItem(user, payload, [ store1_id, store2_id, store3_id ]);
 
-    // Check juxt api
-    const items = await juxt_api.getItems(user, [ id ], [ store1_id, store2_id, store3_id ]);
+    // Check 
+    const storeItems = await knex('items_stores').where('item_id', item_id);
 
-    items[0].should.have.property('stores').with.length(2);
+    storeItems.length.should.equal(3);
   });
 
-  it('get one item with all stores', async () => {
-    // Updates item and items_stores
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
+  it('read - one item with multiple stores', async () => {
+    // TODO: seed
+    const item    = await knex('items').where('title', 'Chicken breast');
+    const item_id = item[0].id;
+
+    const store1    = await knex('stores').where('name', 'Trader Joes');
+    const store1_id = store1[0].id;
+    const store2    = await knex('stores').where('name', 'Uwajimaya');
+    const store2_id = store2[0].id;
+    const store3    = await knex('stores').where('name', 'Costco');
+    const store3_id = store3[0].id;
+
+    const user = { name: 'Jonathan', isSuper: true };
+
+    const payload1 = { item_id, store_id: store1_id, price: 7.99, amount: 6, unit: 'breasts' };
+    const payload2 = { item_id, store_id: store2_id, price: 9.99, amount: 7, unit: 'breasts' };
+
+    await api.create(user, payload1);
+    await api.create(user, payload2);
+
+    // Check 
+    const items = await api.getItems(user, [ item_id ], [ store1_id, store2_id, store3_id ]);
+
+    items[0].should.have.property('stores').with.length(2);
+    items[0].stores[0].price.should.equal(7.99);
+    items[0].stores[0].amount.should.equal(6);
+    items[0].stores[1].price.should.equal(9.99);
+    items[0].stores[1].amount.should.equal(7);
+  });
+
+  it('read - one item with all stores', async () => {
+    // TODO: seed
+    const item    = await knex('items').where('title', 'Chicken breast');
+    const item_id = item[0].id;
 
     const store1    = await knex('stores').where('name', 'Trader Joes');
     const store1_id = store1[0].id;
@@ -64,22 +125,22 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
-    };
+    const payload1 = { item_id, store_id: store1_id, amount: 6, unit: 'none' };
+    const payload2 = { item_id, store_id: store2_id, amount: 6, unit: 'none' };
 
-    await item_api.update(user, { id }, payload);
+    await api.create(user, payload1);
+    await api.create(user, payload2);
 
-    // Check juxt api
-    const items = await juxt_api.getItems(user, [ id ], null);
+    // Check 
+    const items = await api.getItems(user, [ item_id ], null);
 
     items[0].should.have.property('stores').with.length(2);
   });
 
-  it('get all items with one store', async () => {
-    // Updates item and items_stores
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
+  it('read - all items with one store', async () => {
+    // TODO: seed
+    const item    = await knex('items').where('title', 'Chicken breast');
+    const item_id = item[0].id;
 
     const store1    = await knex('stores').where('name', 'Trader Joes');
     const store1_id = store1[0].id;
@@ -88,164 +149,142 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
-    };
+    const payload1 = { item_id, store_id: store1_id, amount: 6, unit: 'none' };
+    const payload2 = { item_id, store_id: store2_id, amount: 6, unit: 'none' };
 
-    await item_api.update(user, { id }, payload);
+    await api.create(user, payload1);
+    await api.create(user, payload2);
 
-    // Check juxt api
-    const items = await juxt_api.getItems(user, null, [ store1_id ]);
+    // Check 
+    const items = await api.getItems(user, null, [ store1_id ]);
 
     items[0].should.have.property('stores').with.length(1);
   });
-  it('items update', async () => {
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
 
-    const store1    = await knex('stores').where('name', 'Trader Joes');
-    const store1_id = store1[0].id;
-    const store2    = await knex('stores').where('name', 'Uwajimaya');
-    const store2_id = store2[0].id;
+  it('update', async () => {
+    // First create the item and put into join table
+    // TODO: make this a seed
+    const item    = await knex('items').where('title', 'Strawberry');
+    const item_id = item[0].id;
+    var price     = 3.49;
+    var amount    = 4;
+    var unit      = 'pint';
 
-    const user = { name: 'Jonathan', isSuper: true };
+    const store    = await knex('stores').where('name', 'Uwajimaya');
+    const store_id = store[0].id;
 
-    item[0].unit.should.equal('breasts');
-    item[0].tags[0].should.equal('frozen');
-
-    const payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
+    const user = {
+      name: 'Jonathan', isSuper: true 
     };
 
-    await item_api.update(user, { id }, payload);
+    var payload = {
+      item_id, store_id, price, amount, unit
+    };
 
-    // Check items table
-    var updatedItem = await knex('items').where('title', 'Chicken breast');
-    updatedItem[0].unit.should.equal('none');
-    updatedItem[0].amount.should.equal(6);
+    await api.create(user, payload);
 
-    // Check items_map table
-    updatedItem = await knex('items_stores').where('item_id', id);
-    updatedItem.length.should.equal(2);
+    // Update
+    price = 2;
+    amount = 3;
+    unit = 'pints' 
+
+    payload = {
+      item_id, store_id, price, amount, unit
+    };
+
+    await api.update(user, { item_id, store_id }, payload);
+
+    const query = { item_id, store_id };
+    var updatedItem = await knex('items_stores').where(query);
+    updatedItem[0].price.should.equal(price);
+    updatedItem[0].amount.should.equal(amount);
+    updatedItem[0].unit.should.equal(unit);
+  });
+
+  it('delete', async () => {
+    // First create the item and put into join table
+    // TODO: make this a seed
+    const item    = await knex('items').where('title', 'Strawberry');
+    const item_id = item[0].id;
+    const price   = 3.49;
+    const amount  = 4;
+    const unit    = 'pint';
+
+    const store    = await knex('stores').where('name', 'Uwajimaya');
+    const store_id = store[0].id;
+
+    const user = {
+      name: 'Jonathan', isSuper: true 
+    };
+
+    const payload = {
+      item_id, store_id, price, amount, unit
+    };
+
+    await api.create(user, payload);
+
+    // Delete
+    await api.del(user, { item_id, store_id });
+
+    const storeItem = await knex('items_stores').where('price', price);
+    storeItem.length.should.equal(0);
   });
 
   it('items delete', async () => {
-    // Create item and put into items_map table
-    // TODO: seed items_map join table
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
+    // First create the item and put into join table
+    // TODO: make this a seed
+    const item    = await knex('items').where('title', 'Strawberry');
+    const item_id = item[0].id;
+    var price     = 3.49;
+    var amount    = 4;
+    var unit      = 'pint';
 
-    const store1    = await knex('stores').where('name', 'Trader Joes');
-    const store1_id = store1[0].id;
-    const store2    = await knex('stores').where('name', 'Uwajimaya');
-    const store2_id = store2[0].id;
-
-    const user = { name: 'Jonathan', isSuper: true };
-
-    item[0].unit.should.equal('breasts');
-    item[0].tags[0].should.equal('frozen');
-
-    const payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
-    };
-
-    await item_api.update(user, { id }, payload);
-
-    var updatedItem = await knex('items').where('title', 'Chicken breast');
-    updatedItem[0].unit.should.equal('none');
-    updatedItem[0].amount.should.equal(6);
-
-    updatedItem = await knex('items_stores').where('item_id', id);
-    updatedItem.length.should.equal(2);
-
-    // Delete item and check to see if still in items_map table
-    await item_api.del(user, { id });
-
-    updatedItem = await knex('items_stores').where('item_id', id);
-    updatedItem.length.should.equal(0);
-  });
-
-  it('store update', async () => {
-    // Create item and put into items_map table
-    // TODO: seed items_map join table
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
-
-    const store    = await knex('stores').where('name', 'Trader Joes');
+    const store    = await knex('stores').where('name', 'Uwajimaya');
     const store_id = store[0].id;
 
-    const user = { name: 'Jonathan', isSuper: true };
-
-    item[0].unit.should.equal('breasts');
-    item[0].tags[0].should.equal('frozen');
-
-    var payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store_id ]
+    const user = {
+      name: 'Jonathan', isSuper: true 
     };
 
-    await item_api.update(user, { id }, payload);
-
-    var updatedItem = await knex('items').where('title', 'Chicken breast');
-    updatedItem[0].unit.should.equal('none');
-    updatedItem[0].amount.should.equal(6);
-
-    updatedItem = await knex('items_stores').where('item_id', id);
-    updatedItem.length.should.equal(1);
-
-    // Update store and check
-    var updatedStore = await knex('items_stores').where('store_id', store_id);
-    updatedStore     = await knex('stores').where('id', updatedStore[0].store_id);
-    updatedStore[0].acronym.should.equal('TJ');
-    updatedStore[0].state.should.equal('WA');
-
-    payload = {
-      id: store_id, acronym: 'TJS', state: 'Washington'
+    const payload = {
+      item_id, store_id, price, amount, unit
     };
 
-    await store_api.update(user, { id: store_id }, payload);
+    await api.create(user, payload);
 
-    var updatedStore = await knex('items_stores').where('store_id', store_id);
-    updatedStore     = await knex('stores').where('id', updatedStore[0].store_id);
-    updatedStore[0].acronym.should.equal('TJS');
-    updatedStore[0].state.should.equal('Washington');
+    // Delete item and check to see if still in items_map table
+    await itemApi.del(user, { id: item_id });
+
+    const storeItem = await knex('items_stores').where('item_id', item_id);
+    storeItem.length.should.equal(0);
   });
 
   it('store delete', async () => {
-    // Create item and put into items_map table
-    // TODO: seed items_map join table
-    const item = await knex('items').where('title', 'Chicken breast');
-    const id   = item[0].id;
+    // First create the item and put into join table
+    // TODO: make this a seed
+    const item    = await knex('items').where('title', 'Strawberry');
+    const item_id = item[0].id;
+    const price   = 3.49;
+    const amount  = 4;
+    const unit    = 'pint';
 
-    const store    = await knex('stores').where('name', 'Trader Joes');
+    const store    = await knex('stores').where('name', 'Uwajimaya');
     const store_id = store[0].id;
 
-    const user = { name: 'Jonathan', isSuper: true };
-
-    item[0].unit.should.equal('breasts');
-    item[0].tags[0].should.equal('frozen');
-
-    var payload = {
-      id, amount: 6, unit: 'none', store_ids: [ store_id ]
+    const user = {
+      name: 'Jonathan', isSuper: true 
     };
 
-    await item_api.update(user, { id }, payload);
+    const payload = {
+      item_id, store_id, price, amount, unit
+    };
 
-    var updatedItem = await knex('items').where('title', 'Chicken breast');
-    updatedItem[0].unit.should.equal('none');
-    updatedItem[0].amount.should.equal(6);
+    await api.create(user, payload);
 
-    updatedItem = await knex('items_stores').where('item_id', id);
-    updatedItem.length.should.equal(1);
+    // Delete store and check
+    await storeApi.del(user, { id: store_id });
 
-    // Update store and check
-    var updatedStore = await knex('items_stores').where('store_id', store_id);
-    updatedStore     = await knex('stores').where('id', updatedStore[0].store_id);
-    updatedStore.length.should.equal(1);
-
-    await store_api.del(user, { id: store_id });
-
-    var updatedStore = await knex('items_stores').where('store_id', store_id);
-    updatedStore.length.should.equal(0);
-
+    const storeItem = await knex('items_stores').where('store_id', store_id);
+    storeItem.length.should.equal(0);
   });
 });

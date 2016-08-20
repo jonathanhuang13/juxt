@@ -11,17 +11,12 @@ function getValidator(user) {
 export async function create(user, payload) {
   const { create } = getValidator(user);
   if (!create) return null;
-  if (!payload.store_ids) return null;
 
   const options = {
     method: 'insert',
   };
 
-  const store_ids = payload.store_ids;
-  delete payload.store_ids;
-
-  var item = await new Item(payload).save(null, options);
-  await item.stores().attach(store_ids);
+  return (new Item(payload)).save(null, options);
 
   return item;
 }
@@ -57,18 +52,7 @@ export async function update(user, { id }, payload) {
     method: 'update',
   };
 
-  if (!payload.store_ids) {
-    return (new Item({ id })).save(payload, options);
-  } else {
-    const store_ids = payload.store_ids;
-    delete payload.store_ids;
-
-
-    var item = await new Item({ id }).save(payload, options);
-    await item.stores().attach(store_ids);
-
-    return item;
-  }
+  return (new Item({ id })).save(payload, options);
 }
 
 export async function del(user, { id }) {
