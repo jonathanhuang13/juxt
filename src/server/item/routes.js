@@ -7,14 +7,14 @@ const user = { name: 'Jonathan', isSuper: 'true' };
 
 router
 .get('/', async (ctx) => {
-  const item = await Item.query();
+  const item = await ItemController.readAll(user);
   ctx.body = item;
 })
 
 .get('/:id', async (ctx) => {
-  const id   = uuidUnparse(ctx.params.id);
-  const item = await ItemController.read(user, { id });
+  const id = uuidUnparse(ctx.params.id);
 
+  const item = await ItemController.read(user, { id });
   ctx.body = item;
 })
 
@@ -28,15 +28,15 @@ router
 
 .post('/', async (ctx) => {
   const payload = ctx.request.body;
-  const item    = await ItemController.create(user, payload);
 
+  const item = await ItemController.create(user, payload);
   ctx.body = item;
 })
 
 .del('/:id', async (ctx) => {
-  const id   = uuidUnparse(ctx.params.id);
-  const item = await ItemController.del(user, { id });
+  const id = uuidUnparse(ctx.params.id);
 
+  const item = await ItemController.del(user, { id });
   ctx.body = item;
 })
 

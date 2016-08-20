@@ -26,6 +26,18 @@ export async function create(user, payload) {
   return item;
 }
 
+export async function readAll(user) {
+  const { read } = getValidator(user);
+
+  const options = {
+    require: true,
+    columns: read.getColumns(),
+  };
+
+  const items = await Item.fetchAll(options);
+  return items;
+}
+
 export async function read(user, { id }) {
   const { read } = getValidator(user);
 

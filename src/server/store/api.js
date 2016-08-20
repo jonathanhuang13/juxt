@@ -21,6 +21,18 @@ export async function create(user, payload) {
   return (new Store(payload)).save(null, options);
 }
 
+export async function readAll(user) {
+  const { read } = getValidator(user);
+
+  const options = {
+    require: true,
+    columns: read.getColumns(),
+  };
+
+  const stores = await Store.fetchAll(options);
+  return stores;
+}
+
 export async function read(user, { id }) {
   const { read } = getValidator(user);
 

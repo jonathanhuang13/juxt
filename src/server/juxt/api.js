@@ -54,5 +54,7 @@ export async function getItems(user, itemIds, storeIds) {
     items.push(item);
   }
 
+  items.sort((a, b) => { a.price - b.price });
+
   return items;
 }
