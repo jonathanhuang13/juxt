@@ -13,8 +13,8 @@ router.get('/', async (ctx) => {
   ctx.body = 'Welcome to the server!!';
 })
 
-router.use('/store', StoreRouter.routes());
-router.use('/item', ItemRouter.routes());
+router.use('/stores', StoreRouter.routes());
+router.use('/items', ItemRouter.routes());
 router.use('/users', UserRouter.routes());
 
 app

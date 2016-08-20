@@ -1,6 +1,7 @@
 import { knex } from '../src/server/book';
 import * as item_api from '../src/server/item/api';
 import * as store_api from '../src/server/store/api';
+import * as juxt_api from '../src/server/juxt/api';
 import uuid from 'node-uuid';
 import should from 'should';
 
@@ -25,7 +26,80 @@ describe('items_store api', async () => {
     });
   });
 
-  it('item - update', async () => {
+  it('get one item with multiple stores', async () => {
+    // Updates item and items_stores
+    const item = await knex('items').where('title', 'Chicken breast');
+    const id   = item[0].id;
+
+    const store1    = await knex('stores').where('name', 'Trader Joes');
+    const store1_id = store1[0].id;
+    const store2    = await knex('stores').where('name', 'Uwajimaya');
+    const store2_id = store2[0].id;
+    const store3    = await knex('stores').where('name', 'Costco');
+    const store3_id = store3[0].id;
+
+    const user = { name: 'Jonathan', isSuper: true };
+
+    const payload = {
+      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
+    };
+
+    await item_api.update(user, { id }, payload);
+
+    // Check juxt api
+    const items = await juxt_api.getItems(user, [ id ], [ store1_id, store2_id, store3_id ]);
+
+    items[0].should.have.property('stores').with.length(2);
+  });
+
+  it('get one item with all stores', async () => {
+    // Updates item and items_stores
+    const item = await knex('items').where('title', 'Chicken breast');
+    const id   = item[0].id;
+
+    const store1    = await knex('stores').where('name', 'Trader Joes');
+    const store1_id = store1[0].id;
+    const store2    = await knex('stores').where('name', 'Uwajimaya');
+    const store2_id = store2[0].id;
+
+    const user = { name: 'Jonathan', isSuper: true };
+
+    const payload = {
+      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
+    };
+
+    await item_api.update(user, { id }, payload);
+
+    // Check juxt api
+    const items = await juxt_api.getItems(user, [ id ], null);
+
+    items[0].should.have.property('stores').with.length(2);
+  });
+
+  it('get all items with one store', async () => {
+    // Updates item and items_stores
+    const item = await knex('items').where('title', 'Chicken breast');
+    const id   = item[0].id;
+
+    const store1    = await knex('stores').where('name', 'Trader Joes');
+    const store1_id = store1[0].id;
+    const store2    = await knex('stores').where('name', 'Uwajimaya');
+    const store2_id = store2[0].id;
+
+    const user = { name: 'Jonathan', isSuper: true };
+
+    const payload = {
+      id, amount: 6, unit: 'none', store_ids: [ store1_id, store2_id ]
+    };
+
+    await item_api.update(user, { id }, payload);
+
+    // Check juxt api
+    const items = await juxt_api.getItems(user, null, [ store1_id ]);
+
+    items[0].should.have.property('stores').with.length(1);
+  });
+  it('items update', async () => {
     const item = await knex('items').where('title', 'Chicken breast');
     const id   = item[0].id;
 

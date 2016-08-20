@@ -7,7 +7,7 @@ exports.seed = function(knex, Promise) {
       return Promise.all([
         // Inserts seed entries
         knex('stores').insert({
-          id: uuid.v1(), 
+          id: uuid.v4(), 
           name: 'Trader Joes',
           acronym: 'TJ',
           city: 'Seattle',
@@ -16,7 +16,7 @@ exports.seed = function(knex, Promise) {
           address1: '4555 Roosevelt Way NE'
         }),
         knex('stores').insert({
-          id: uuid.v1(), 
+          id: uuid.v4(), 
           name: 'Uwajimaya',
           acronym: 'UJ',
           city: 'Seattle',
@@ -25,7 +25,7 @@ exports.seed = function(knex, Promise) {
           address1: '600 5th Ave S'
         }),
         knex('stores').insert({
-          id: uuid.v1(), 
+          id: uuid.v4(), 
           name: 'Costco',
           acronym: 'CT',
           city: 'Kirkland',

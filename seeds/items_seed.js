@@ -7,7 +7,7 @@ exports.seed = function(knex, Promise) {
       return Promise.all([
         // Inserts seed entries
         knex('items').insert({
-          id: uuid.v1(), 
+          id: uuid.v4(), 
           title: 'Chicken breast',
           brand: 'Tyson\'s',
           price: 5.99,
@@ -16,7 +16,7 @@ exports.seed = function(knex, Promise) {
           tags: ['frozen', 'meat']
         }),
         knex('items').insert({
-          id: uuid.v1(), 
+          id: uuid.v4(), 
           title: 'Strawberry',
           brand: 'Dole',
           price: 8.59,
