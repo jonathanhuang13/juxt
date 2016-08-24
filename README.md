@@ -4,7 +4,7 @@ Juxt
 ## Tech
 * postgres
 * node: koa, knex/bookshelf.js
-* ui: react, redux, redux-saga, immutable
+* ui: react, redux, immutable
 
 ## Developing
 * "npm run dev" - runs everything you need for development
@@ -48,7 +48,7 @@ createdb juxt_test
 
 ```bash
 git clone https://github.com/jonathanhuang13/juxt.git
-cd worshipful
+cd juxt
 brew install node
 npm install 
 ```
