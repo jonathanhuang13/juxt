@@ -1,7 +1,7 @@
-import { knex } from '../src/server/book';
-import * as api from '../src/server/store_item/api';
-import * as itemApi from '../src/server/item/api';
-import * as storeApi from '../src/server/store/api';
+import { knex } from '../../src/server/book';
+import * as api from '../../src/server/store_item/api';
+import * as itemApi from '../../src/server/item/api';
+import * as storeApi from '../../src/server/store/api';
 import uuid from 'node-uuid';
 import should from 'should';
 

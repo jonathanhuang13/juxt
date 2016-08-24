@@ -1,5 +1,5 @@
-import { knex } from '../src/server/book';
-import * as api from '../src/server/item/api';
+import { knex } from '../../src/server/book';
+import * as api from '../../src/server/item/api';
 import uuid from 'node-uuid';
 import should from 'should';
 
