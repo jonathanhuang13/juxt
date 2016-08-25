@@ -1,6 +1,7 @@
-require("babel-core/register");
-require("babel-polyfill");
-require("bootstrap/dist/css/bootstrap.css");
+require('babel-core/register');
+require('babel-polyfill');
+require('bootstrap/dist/css/bootstrap.css');
+require('./assets/styles.less');
 
 import ReactDOM from 'react-dom';
 import React from 'react';

@@ -1,4 +1,3 @@
-require('../assets/styles.less');
 import React from 'react';
 import Store from './store';
 
