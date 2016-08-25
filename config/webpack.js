@@ -32,7 +32,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.less$/, loader: 'style!css!less' },
+      { test: /\.(less|css)$/, loader: 'style!css!less' },
       { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'file' },
       {
         test: /\.jsx?$/,
