@@ -42,3 +42,9 @@ lib/*
 
 # Temporary
 *.swp
+
+# Bootstrap
+*.woff*
+*.svg
+*.eot
+*.ttf
