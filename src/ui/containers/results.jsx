@@ -12,7 +12,6 @@ export class Results extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return <div>
       { this.getList().map(this.renderItem) }
     </div>;
