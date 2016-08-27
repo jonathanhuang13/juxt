@@ -2,7 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Item from './results/item';
 
+import * as resultsActions from '../actions/results';
+
 export class Results extends React.Component {
+  componentDidMount() {
+    const { itemIds, storeIds, dispatch } = this.props;
+    dispatch(resultsActions.fetch(itemIds, storeIds));
+  }
+
   getList() {
     return this.props.itemList || [];
   }
@@ -20,7 +27,7 @@ export class Results extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    itemList: state.results.get('itemList')
+    itemList: state.resultsReducer.get('itemList')
   };
 }
 
