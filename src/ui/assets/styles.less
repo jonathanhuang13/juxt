@@ -1,3 +1,28 @@
-.testCase {
-  color: blue 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  align-items: center;
+
+  .title {
+    display: flex;
+    flex-grow: 1;
+    font-family: 'Open Sans', sans-serif;
+    color: #009900;
+    letter-spacing: 6px;
+    text-indent: 3px;
+  }
+}
+
+.link {
+  &:hover{
+    color: transparent;
+  }
 }

@@ -22,7 +22,7 @@ export default class Item extends React.Component {
 
   render() {
     return <div>
-      <h1 className='testCase'>{this.props.title}</h1>
+      <h1>{this.props.title}</h1>
       { this.getStores().map(this.renderStore.bind(this)) }
     </div>;
   }
