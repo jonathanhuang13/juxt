@@ -33,7 +33,7 @@ module.exports = {
     loaders: [
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.(less|css)$/, loader: 'style!css!less' },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'file' },
+      { test: /\.(jpg|png|woff|woff2|eot|ttf|svg)$/, loader: 'file' },
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,

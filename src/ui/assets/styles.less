@@ -3,6 +3,9 @@
 .container {
   display: flex;
   flex-direction: column;
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+  padding: 0px;
 }
 
 .header {
@@ -14,10 +17,49 @@
   .title {
     display: flex;
     flex-grow: 1;
-    font-family: 'Open Sans', sans-serif;
     color: #009900;
     letter-spacing: 6px;
-    text-indent: 3px;
+    text-indent: 6px;
+  }
+}
+
+.footer {
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+
+  .title {
+    width: 100%;
+    margin: 0px;
+    text-align: center;
+  }
+
+  .subtitle {
+    width: 100%;
+    margin: 0px;
+    text-align: center;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .inputs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      width: 45%;
+
+      .form-control {
+        width: 45%;
+        border-color: red;
+      }
+    }
   }
 }
 
