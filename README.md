@@ -4,7 +4,7 @@ Juxt
 ## Tech
 * postgres
 * node: koa, knex/bookshelf.js
-* ui: react, redux, immutable
+* ui: react, redux, redux-saga, immutable, superagent
 
 ## Developing
 * "npm run dev" - runs everything you need for development
