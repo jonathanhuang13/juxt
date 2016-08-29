@@ -18,11 +18,11 @@ router
   ctx.body = store;
 })
 
-.get('/search/:title', async (ctx) => {
+.get('/search/:name', async (ctx) => {
   const term = ctx.params.name;
 
-  const items = await StoreController.search(user, term);
-  ctx.body = items;
+  const stores = await StoreController.search(user, term);
+  ctx.body = stores ;
 })
 
 .put ('/:id', async (ctx) => {
