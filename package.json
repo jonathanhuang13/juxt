@@ -45,8 +45,6 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-runtime": "^6.9.0",
     "bookshelf": "^0.9.5",
-    "bootstrap": "^3.3.7",
-    "bootstrap-webpack": "0.0.5",
     "chai": "^3.5.0",
     "chai-immutable": "^1.6.0",
     "concurrently": "^2.1.0",
@@ -58,8 +56,11 @@
     "eslint-plugin-jsx-a11y": "^1.4.2",
     "eslint-plugin-react": "^5.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "immutable": "^3.8.1",
+    "imports-loader": "^0.6.5",
     "jsdom": "^9.4.2",
+    "json-loader": "^0.5.4",
     "knex": "^0.11.5",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
@@ -100,6 +101,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.7.0",
     "redux": "^3.5.2",
-    "redux-saga": "^0.11.0"
+    "redux-saga": "^0.11.0",
+    "superagent": "^2.2.0"
   }
 }

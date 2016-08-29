@@ -60,6 +60,14 @@ describe('stores api', async () => {
     model.get('acronym').should.equal('UJ');
   });
 
+  it('normal - search', async () => {
+    const item = await knex('stores').where('name', 'Trader Joes');
+
+    const model = await api.search(null, 'Trader');
+
+    model.get('name').should.equal('Trader Joes');
+  });
+
   it('normal - update', async () => {
     const store = await knex('stores').where('name', 'Trader Joes');
     const id     = store[0].id;

@@ -38,6 +38,7 @@ jspm_packages
 
 # Public and lib
 public/*.js*
+public/*.png
 lib/*
 
 # Temporary
@@ -48,3 +49,6 @@ lib/*
 *.svg
 *.eot
 *.ttf
+
+# Other
+0

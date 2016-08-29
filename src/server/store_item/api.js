@@ -4,8 +4,8 @@ import * as itemApi from '../item/api';
 import * as storeApi from '../store/api';
 
 function getValidator(user) {
-  if (user.isSuper) return valid.sup;
-  if (user.isAdmin) return valid.admin;
+  if (user && user.isSuper) return valid.sup;
+  if (user && user.isAdmin) return valid.admin;
 
   return valid.user;
 }

@@ -56,6 +56,14 @@ describe('items api', async () => {
     model.get('title').should.equal('Strawberry');
   });
 
+  it('normal - search', async() => {
+    const item = await knex('items').where('title', 'Chicken breast');
+
+    const model = await api.search(null, 'Chicken');
+
+    model.get('title').should.equal('Chicken breast');
+  });
+
   it('normal - update', async () => {
     const item = await knex('items').where('title', 'Chicken breast');
     const id   = item[0].id;

@@ -2,8 +2,8 @@ import * as valid from './valid';
 import { Store } from '../book';
 
 function getValidator(user) {
-  if (user.isSuper) return valid.sup;
-  if (user.isAdmin) return valid.admin;
+  if (user && user.isSuper) return valid.sup;
+  if (user && user.isAdmin) return valid.admin;
 
   return valid.user;
 }
@@ -42,6 +42,16 @@ export async function read(user, { id }) {
   };
 
   return (new Store({ id })).fetch(options);
+}
+
+export async function search(user, term) {
+  const { read } = getValidator(user);
+
+  const options = {
+    columns: read.getColumns(),
+  };
+
+  return (Store.query('where', 'name', 'LIKE', '%' + term + '%')).fetch(options);
 }
 
 export async function update(user, { id }, payload) {
