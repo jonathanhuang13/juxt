@@ -3,5 +3,7 @@ export const results = {
 };
 
 export const search = {
-  SUBMIT: 'SUBMIT'
+  SUBMIT:             'SUBMIT',
+  SET_SEARCH_ITEMS:   'SET_SEARCH_ITEMS',
+  SET_SEARCH_STORES:  'SET_SEARCH_STORES'
 };

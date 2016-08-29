@@ -40,4 +40,11 @@ export class Home extends React.Component {
   }
 }
 
-export default connect()(Home);
+function mapStateToProps(state) {
+  return {
+    searchedItems: state.searchReducer.get('searchedItems'),
+    searchedStores: state.searchReducer.get('searchedStores')
+  };
+}
+
+export default connect(mapStateToProps)(Home);
