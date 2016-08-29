@@ -57,10 +57,12 @@ describe('items api', async () => {
   });
 
   it('normal - search', async() => {
-    const item = await knex('items').where('title', 'Chicken breast');
+    const collection = await api.search(null, 'a');
 
-    const model = await api.search(null, 'Chicken');
+    var model = collection.pop();
+    model.get('title').should.equal('Strawberry');
 
+    model = collection.pop();
     model.get('title').should.equal('Chicken breast');
   });
 

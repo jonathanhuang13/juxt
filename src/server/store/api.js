@@ -51,7 +51,7 @@ export async function search(user, term) {
     columns: read.getColumns(),
   };
 
-  return (Store.query('where', 'name', 'LIKE', '%' + term + '%')).fetch(options);
+  return (Store.query('where', 'name', 'LIKE', '%' + term + '%')).fetchAll(options);
 }
 
 export async function update(user, { id }, payload) {

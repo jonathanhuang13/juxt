@@ -18,6 +18,13 @@ router
   ctx.body = store;
 })
 
+.get('/search/:title', async (ctx) => {
+  const term = ctx.params.name;
+
+  const items = await StoreController.search(user, term);
+  ctx.body = items;
+})
+
 .put ('/:id', async (ctx) => {
   const payload = ctx.request.body;
   const id      = uuidUnparse(ctx.params.id);

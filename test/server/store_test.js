@@ -61,9 +61,8 @@ describe('stores api', async () => {
   });
 
   it('normal - search', async () => {
-    const item = await knex('stores').where('name', 'Trader Joes');
-
-    const model = await api.search(null, 'Trader');
+    const collection = await api.search(null, 'Trader');
+    const model      = collection.pop();
 
     model.get('name').should.equal('Trader Joes');
   });

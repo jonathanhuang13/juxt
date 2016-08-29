@@ -5,6 +5,7 @@ import * as ItemController from './api';
 const router = require('koa-router')();
 const user = { name: 'Jonathan', isSuper: 'true' };
 
+// TODO: nest routes better
 router
 .get('/', async (ctx) => {
   const item = await ItemController.readAll(user);
@@ -16,6 +17,13 @@ router
 
   const item = await ItemController.read(user, { id });
   ctx.body = item;
+})
+
+.get('/search/:title', async (ctx) => {
+  const term = ctx.params.title;
+
+  const items = await ItemController.search(user, term);
+  ctx.body = items;
 })
 
 .put ('/:id', async (ctx) => {
