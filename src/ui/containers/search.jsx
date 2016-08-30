@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { Button } from './common_components';
+import ItemInput from './search/item_input';
+import StoreInput from './search/store_input';
 
 class Search extends React.Component {
   constructor(props) {
@@ -8,12 +10,12 @@ class Search extends React.Component {
     this.state = { itemNames: null, storeNames: null };
   }
 
-  handleItemsUpdate(event) {
-    this.setState({ itemNames: event.target.value });
+  handleItemsUpdate(itemNames) {
+    this.setState({ itemNames });
   }
 
-  handleStoresUpdate(event) {
-    this.setState({ storeNames: event.target.value });
+  handleStoresUpdate(storeNames) {
+    this.setState({ storeNames });
   }
 
   handleSubmit() {
@@ -30,21 +32,25 @@ class Search extends React.Component {
 
   renderInputs() {
     return <div className='inputs'>
-        { this.props.inputs.map(this.renderInput.bind(this)) }
+        { this.renderItemInput() }
+        { this.renderStoreInput() }
     </div>;
   }
 
-  renderInput(input, i) {
-    const onChange = input === 'items' ? this.handleItemsUpdate.bind(this) : this.handleStoresUpdate.bind(this);
-
+  renderItemInput() {
     const params = {
-      type: 'text',
-      className: 'form-control input-lg',
-      placeholder: 'Enter ' + input + ' here',
-      onChange
+      onItemsUpdate: this.handleItemsUpdate.bind(this),
     }
 
-    return <input key={i} {...params}/>;
+    return <ItemInput {...params}/>;
+  }
+
+  renderStoreInput() {
+    const params = {
+      onStoresUpdate: this.handleStoresUpdate.bind(this),
+    }
+
+    return <StoreInput {...params}/>;
   }
 
   render() {

@@ -14,7 +14,6 @@ export class Home extends React.Component {
 
   renderSearch() {
     const props = {
-      inputs: [ 'items', 'stores' ],
       className: 'form-group',
       handleSubmit: this.onSubmit.bind(this),
     }
