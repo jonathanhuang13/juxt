@@ -1,22 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import produceImage from '../assets/images/produce.png';
 import { Search } from './search';
+
 import * as searchActions from '../actions/search';
 
 export class Home extends React.Component {
   onSubmit(itemNames, storeNames) {
-    this.props.dispatch(searchActions.handleSubmit(itemNames, storeNames));
+    const { dispatch, router } = this.props;
+
+    dispatch(searchActions.handleSubmit(itemNames, storeNames));
+    router.push('/results');
   }
 
   renderSearch() {
     const props = {
       inputs: [ 'items', 'stores' ],
       className: 'form-group',
-      handleSubmit: this.onSubmit.bind(this)
+      handleSubmit: this.onSubmit.bind(this),
     }
     return <Search {...props} />;
   }
+
   renderTitle() {
     return <div>
       <h1 className='title'>Cheaper groceries, tastier meals</h1>
@@ -40,6 +46,12 @@ export class Home extends React.Component {
   }
 }
 
+Home.propTypes = {
+  router: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired
+  }).isRequired
+};
+
 function mapStateToProps(state) {
   return {
     searchedItems: state.searchReducer.get('searchedItems'),
@@ -47,4 +59,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(withRouter(Home));
