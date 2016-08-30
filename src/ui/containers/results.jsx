@@ -1,8 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router'; 
 import { connect } from 'react-redux';
 import Item from './results/item';
-import { Search } from './search';
+import Search from './search';
 
 import * as searchActions from '../actions/search';
 import * as resultsActions from '../actions/results';
@@ -14,10 +13,9 @@ export class Results extends React.Component {
   }
 
   onSubmit(itemNames, storeNames) {
-    const { dispatch, router } = this.props;
+    const { dispatch } = this.props;
 
     dispatch(searchActions.handleSubmit(itemNames, storeNames));
-    router.push('/results');
   }
 
   getList() {
@@ -45,16 +43,10 @@ export class Results extends React.Component {
   }
 }
 
-Results.propTypes = {
-  router: React.PropTypes.shape({
-    push: React.PropTypes.func.isRequired
-  }).isRequired
-};
-
 function mapStateToProps(state) {
   return {
     itemList: state.resultsReducer.get('itemList')
   };
 }
 
-export default connect(mapStateToProps)(withRouter(Results));
+export default connect(mapStateToProps)(Results);

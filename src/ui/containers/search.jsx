@@ -1,7 +1,8 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { Button } from './common_components';
 
-export class Search extends React.Component {
+class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = { itemNames: null, storeNames: null };
@@ -17,7 +18,10 @@ export class Search extends React.Component {
 
   handleSubmit() {
     const { itemNames, storeNames } = this.state;
-    this.props.handleSubmit(itemNames, storeNames);
+    const { handleSubmit, router }  = this.props;
+
+    handleSubmit(itemNames, storeNames);
+    router.push('/results');
   }
 
   renderSubmit() {
@@ -50,3 +54,11 @@ export class Search extends React.Component {
     </div>;
   }
 }
+
+Search.propTypes = {
+  router: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired
+  }).isRequired
+};
+
+export default withRouter(Search);

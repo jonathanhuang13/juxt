@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import produceImage from '../assets/images/produce.png';
-import { Search } from './search';
+import Search from './search';
 
 import * as searchActions from '../actions/search';
 
 export class Home extends React.Component {
   onSubmit(itemNames, storeNames) {
-    const { dispatch, router } = this.props;
+    const { dispatch } = this.props;
 
     dispatch(searchActions.handleSubmit(itemNames, storeNames));
-    router.push('/results');
   }
 
   renderSearch() {
@@ -46,12 +44,6 @@ export class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
-  router: React.PropTypes.shape({
-    push: React.PropTypes.func.isRequired
-  }).isRequired
-};
-
 function mapStateToProps(state) {
   return {
     searchedItems: state.searchReducer.get('searchedItems'),
@@ -59,4 +51,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(withRouter(Home));
+export default connect(mapStateToProps)(Home);
