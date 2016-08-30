@@ -9,7 +9,7 @@ import { Route, Router, hashHistory } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import * as sagas from './saga';
+import sagas from './sagas';
 
 import reducer from './reducers';
 import routes from './routes'
@@ -21,9 +21,7 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
 );
 
-for (const s in sagas) {
-  sagaMiddleware.run(sagas[s]);
-}
+sagaMiddleware.run(sagas);
 
 async function start() {
   //const foo = await fetch('http://localhost:3000/').then(r => r.json());
