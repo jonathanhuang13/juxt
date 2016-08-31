@@ -1,10 +1,11 @@
 import React from 'react';
 import { ButtonToolbar, Button, FormControl } from 'react-bootstrap/lib';
+import ItemModal from '../add/item_modal';
 
 export default class ItemInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { itemNames: null, showDropdown: false };
+    this.state = { itemNames: null, showDropdown: false, showItemModal: false };
   }
 
   handleItemsUpdate(event) {
@@ -23,8 +24,16 @@ export default class ItemInput extends React.Component {
     this.setState({ showDropdown: false });
   }
 
-  handleAdd() {
-    console.log('here');
+  handleShowModal() {
+    this.setState({ showItemModal: true });
+  }
+
+  handleCloseModal() {
+    this.setState({ showItemModal: false });
+  }
+
+  handleModalSubmit(info) {
+    console.log(info);
   }
 
   renderDropdown() {
@@ -41,19 +50,19 @@ export default class ItemInput extends React.Component {
     const addButton = {
       className: 'add-button',
       bsStyle:  'default',
-      onClick:  this.handleAdd.bind(this)
+      onClick:  this.handleShowModal.bind(this)
     }
 
     return <div className='add-remove-group'>
         <Button {...addButton}>
-          {this.renderAdd() }
+          {this.renderAddSpan() }
           <span> </span>Add Item
         </Button>
         { this.renderRemove() }
     </div>
   }
 
-  renderAdd() {
+  renderAddSpan() {
     const addButton = {
       className: 'glyphicon glyphicon-plus',
       style:     { color: 'green' },
@@ -72,6 +81,16 @@ export default class ItemInput extends React.Component {
     return <span {...removeButton}></span>
   }
 
+  renderItemModal() {
+    const params = {
+      showItemModal:  this.state.showItemModal,
+      onClose:        this.handleCloseModal.bind(this),
+      onSubmit:       this.handleModalSubmit
+    }
+
+    return <ItemModal {...params} />
+  }
+
   render() {
     const formControl = {
       type:         'text',
@@ -84,6 +103,7 @@ export default class ItemInput extends React.Component {
     return <div className='itemInput dropdown'>
       <FormControl {...formControl} />
       { this.renderDropdown() }
+      { this.renderItemModal() }
     </div>;
   }
 } 
