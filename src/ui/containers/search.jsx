@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Button } from './common_components';
+import { Button, Form, FormGroup } from 'react-bootstrap/lib';
 import ItemInput from './search/item_input';
 import StoreInput from './search/store_input';
 
@@ -27,14 +27,14 @@ class Search extends React.Component {
   }
 
   renderSubmit() {
-    return <Button className='btn btn-danger btn-lg' onClick={this.handleSubmit.bind(this)}>Search</Button>;
-  }
+    const button = {
+      bsStyle:  'danger',
+      bsSize:   'large',
+      type:     'submit',
+      onClick:  this.handleSubmit.bind(this)
+    }
 
-  renderInputs() {
-    return <div className='inputs'>
-        { this.renderItemInput() }
-        { this.renderStoreInput() }
-    </div>;
+    return <Button {...button}>Search</Button>;
   }
 
   renderItemInput() {
@@ -54,10 +54,13 @@ class Search extends React.Component {
   }
 
   render() {
-    return <div className={this.props.className}>
-      { this.renderInputs() }
-      { this.renderSubmit() }
-    </div>;
+    return <Form inline className='search'>
+      <FormGroup className='inputs'>
+        { this.renderItemInput() }
+        { this.renderStoreInput() }
+      </FormGroup>
+      <FormGroup>{ this.renderSubmit() }</FormGroup>
+    </Form>;
   }
 }
 

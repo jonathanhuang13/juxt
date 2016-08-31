@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormControl } from 'react-bootstrap/lib';
 
 export default class StoreInput extends React.Component {
   constructor(props) {
@@ -18,11 +19,12 @@ export default class StoreInput extends React.Component {
     const params = {
       type:         'text',
       className:    'form-control input-lg',
-      placeholder:  'Enter store here'
+      placeholder:  'Enter store here',
+      onChange:     this.handleStoresUpdate.bind(this)
     }
 
     return <div className='storeInput'>
-      <input onChange={this.handleStoresUpdate.bind(this)} {...params} />
+      <FormControl {...params} />
     </div>;
   }
 } 

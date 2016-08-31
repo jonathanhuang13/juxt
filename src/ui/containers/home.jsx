@@ -14,9 +14,9 @@ export class Home extends React.Component {
 
   renderSearch() {
     const props = {
-      className: 'form-group',
       handleSubmit: this.onSubmit.bind(this),
     }
+
     return <Search {...props} />;
   }
 
