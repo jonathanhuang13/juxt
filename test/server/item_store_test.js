@@ -31,17 +31,17 @@ describe('items_store api', async () => {
     const item_id = item[0].id;
     const price   = 3.49;
     const amount  = 4;
-    const unit    = 'pint';
+    const units   = 'pint';
 
-    const store   = await knex('stores').where('name', 'Uwajimaya');
-    const store_id = store[0].id 
+    const store    = await knex('stores').where('name', 'Uwajimaya');
+    const store_id = store[0].id
 
     const user = {
       name: 'Jonathan', isSuper: true 
     };
 
     const payload = {
-      item_id, store_id, price, amount, unit
+      item_id, store_id, price, amount, units
     };
 
     await api.create(user, payload);
@@ -52,7 +52,7 @@ describe('items_store api', async () => {
 
     storeItem.price.should.equal(price);
     storeItem.amount.should.equal(amount);
-    storeItem.unit.should.equal(unit);
+    storeItem.units.should.equal(units);
 
     var mappedStore = await knex('stores').where('id', storeItem.store_id);
     mappedStore     = mappedStore[0];
@@ -73,7 +73,7 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload = { item_id, store_id: store1_id, price: 7.99, amount: 6, unit: 'breasts' };
+    const payload = { item_id, store_id: store1_id, price: 7.99, amount: 6, units: 'breasts' };
 
     await api.createItem(user, payload, [ store1_id, store2_id, store3_id ]);
 
@@ -97,8 +97,8 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload1 = { item_id, store_id: store1_id, price: 7.99, amount: 6, unit: 'breasts' };
-    const payload2 = { item_id, store_id: store2_id, price: 9.99, amount: 7, unit: 'breasts' };
+    const payload1 = { item_id, store_id: store1_id, price: 7.99, amount: 6, units: 'breasts' };
+    const payload2 = { item_id, store_id: store2_id, price: 9.99, amount: 7, units: 'breasts' };
 
     await api.create(user, payload1);
     await api.create(user, payload2);
@@ -125,8 +125,8 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload1 = { item_id, store_id: store1_id, amount: 6, unit: 'none' };
-    const payload2 = { item_id, store_id: store2_id, amount: 6, unit: 'none' };
+    const payload1 = { item_id, store_id: store1_id, amount: 6, units: 'none' };
+    const payload2 = { item_id, store_id: store2_id, amount: 6, units: 'none' };
 
     await api.create(user, payload1);
     await api.create(user, payload2);
@@ -149,8 +149,8 @@ describe('items_store api', async () => {
 
     const user = { name: 'Jonathan', isSuper: true };
 
-    const payload1 = { item_id, store_id: store1_id, amount: 6, unit: 'none' };
-    const payload2 = { item_id, store_id: store2_id, amount: 6, unit: 'none' };
+    const payload1 = { item_id, store_id: store1_id, amount: 6, units: 'none' };
+    const payload2 = { item_id, store_id: store2_id, amount: 6, units: 'none' };
 
     await api.create(user, payload1);
     await api.create(user, payload2);
@@ -168,7 +168,7 @@ describe('items_store api', async () => {
     const item_id = item[0].id;
     var price     = 3.49;
     var amount    = 4;
-    var unit      = 'pint';
+    var units     = 'pint';
 
     const store    = await knex('stores').where('name', 'Uwajimaya');
     const store_id = store[0].id;
@@ -178,18 +178,18 @@ describe('items_store api', async () => {
     };
 
     var payload = {
-      item_id, store_id, price, amount, unit
+      item_id, store_id, price, amount, units
     };
 
     await api.create(user, payload);
 
     // Update
-    price = 2;
+    price  = 2;
     amount = 3;
-    unit = 'pints' 
+    units  = 'pints';
 
     payload = {
-      item_id, store_id, price, amount, unit
+      item_id, store_id, price, amount, units
     };
 
     await api.update(user, { item_id, store_id }, payload);
@@ -198,7 +198,7 @@ describe('items_store api', async () => {
     var updatedItem = await knex('items_stores').where(query);
     updatedItem[0].price.should.equal(price);
     updatedItem[0].amount.should.equal(amount);
-    updatedItem[0].unit.should.equal(unit);
+    updatedItem[0].units.should.equal(units);
   });
 
   it('delete', async () => {
@@ -208,7 +208,7 @@ describe('items_store api', async () => {
     const item_id = item[0].id;
     const price   = 3.49;
     const amount  = 4;
-    const unit    = 'pint';
+    const units   = 'pint';
 
     const store    = await knex('stores').where('name', 'Uwajimaya');
     const store_id = store[0].id;
@@ -218,7 +218,7 @@ describe('items_store api', async () => {
     };
 
     const payload = {
-      item_id, store_id, price, amount, unit
+      item_id, store_id, price, amount, units
     };
 
     await api.create(user, payload);
@@ -237,7 +237,7 @@ describe('items_store api', async () => {
     const item_id = item[0].id;
     var price     = 3.49;
     var amount    = 4;
-    var unit      = 'pint';
+    var units     = 'pint';
 
     const store    = await knex('stores').where('name', 'Uwajimaya');
     const store_id = store[0].id;
@@ -247,7 +247,7 @@ describe('items_store api', async () => {
     };
 
     const payload = {
-      item_id, store_id, price, amount, unit
+      item_id, store_id, price, amount, units
     };
 
     await api.create(user, payload);
@@ -266,7 +266,7 @@ describe('items_store api', async () => {
     const item_id = item[0].id;
     const price   = 3.49;
     const amount  = 4;
-    const unit    = 'pint';
+    const units   = 'pint';
 
     const store    = await knex('stores').where('name', 'Uwajimaya');
     const store_id = store[0].id;
@@ -276,7 +276,7 @@ describe('items_store api', async () => {
     };
 
     const payload = {
-      item_id, store_id, price, amount, unit
+      item_id, store_id, price, amount, units
     };
 
     await api.create(user, payload);

@@ -2,15 +2,15 @@ import { valid } from '../validation';
 
 export const user = {
   create: false,
-  read: valid().str(['unit']).num(['price', 'amount']),
+  read: valid().str(['item_id', 'store_id', 'units']).num(['price', 'amount']),
   update: false,
   del: false,
 };
 
 export const sup = {
-  create: valid().str(['unit']).num(['price', 'amount']),
-  read: valid().str(['unit']).num(['price', 'amount']),
-  update: valid().str(['unit']).num(['price', 'amount']),
+  create: valid().str(['item_id', 'store_id', 'units']).num(['price', 'amount']),
+  read: valid().str(['item_id', 'store_id', 'units']).num(['price', 'amount']),
+  update: valid().str(['item_id', 'store_id', 'units']).num(['price', 'amount']),
   del: true,
 };
 

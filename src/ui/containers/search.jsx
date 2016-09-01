@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Button, Form, FormGroup } from 'react-bootstrap/lib';
 import ItemInput from './search/item_input';
 import StoreInput from './search/store_input';
+
+import * as itemFormActions from '../actions/item_form';
 
 class Search extends React.Component {
   constructor(props) {
@@ -23,7 +26,11 @@ class Search extends React.Component {
     const { handleSubmit, router }  = this.props;
 
     handleSubmit(itemNames, storeNames);
-    router.push('/results');
+    //router.push('/results');
+  }
+
+  handleItemsAdd(info) {
+    this.props.dispatch(itemFormActions.handleSubmit(info));
   }
 
   renderSubmit() {
@@ -39,7 +46,8 @@ class Search extends React.Component {
 
   renderItemInput() {
     const params = {
-      onItemsUpdate: this.handleItemsUpdate.bind(this),
+      onItemsUpdate:  this.handleItemsUpdate.bind(this),
+      onItemsAdd:     this.handleItemsAdd.bind(this)
     }
 
     return <ItemInput {...params}/>;
@@ -70,4 +78,4 @@ Search.propTypes = {
   }).isRequired
 };
 
-export default withRouter(Search);
+export default connect()(withRouter(Search));

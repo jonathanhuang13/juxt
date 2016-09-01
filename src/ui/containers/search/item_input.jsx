@@ -1,19 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { ButtonToolbar, Button, FormControl } from 'react-bootstrap/lib';
-import ItemModal from '../add/item_modal';
+import ItemForm from '../form/item_form';
 
-export default class ItemInput extends React.Component {
+import * as itemFormActions from '../../actions/item_form';
+
+class ItemInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { itemNames: null, showDropdown: false, showItemModal: false };
+    this.state = { itemNames: null, showDropdown: false, showItemForm: false };
   }
 
   handleItemsUpdate(event) {
-    const { onItemsUpdate } = this.props;
-    const itemValue         = event.target.value;
+    const itemValue = event.target.value;
 
     this.setState({ itemNames: itemValue });
-    onItemsUpdate(itemValue);
+    this.props.onItemsUpdate(itemValue);
   }
 
   handleShowDropdown() {
@@ -24,16 +26,16 @@ export default class ItemInput extends React.Component {
     this.setState({ showDropdown: false });
   }
 
-  handleShowModal() {
-    this.setState({ showItemModal: true });
+  handleShowForm() {
+    this.props.dispatch(itemFormActions.handleShowForm());
   }
 
-  handleCloseModal() {
-    this.setState({ showItemModal: false });
+  handleCloseForm() {
+    this.props.dispatch(itemFormActions.handleHideForm());
   }
 
-  handleModalSubmit(info) {
-    console.log(info);
+  handleFormSubmit(info) {
+    this.props.onItemsAdd(info);
   }
 
   renderDropdown() {
@@ -50,7 +52,7 @@ export default class ItemInput extends React.Component {
     const addButton = {
       className: 'add-button',
       bsStyle:  'default',
-      onClick:  this.handleShowModal.bind(this)
+      onClick:  this.handleShowForm.bind(this)
     }
 
     return <div className='add-remove-group'>
@@ -81,14 +83,15 @@ export default class ItemInput extends React.Component {
     return <span {...removeButton}></span>
   }
 
-  renderItemModal() {
+  renderItemForm() {
     const params = {
-      showItemModal:  this.state.showItemModal,
-      onClose:        this.handleCloseModal.bind(this),
-      onSubmit:       this.handleModalSubmit
+      showItemForm:  this.props.showItemForm,
+      loading:       this.props.loading,
+      onClose:       this.handleCloseForm.bind(this),
+      onSubmit:      this.handleFormSubmit.bind(this)
     }
 
-    return <ItemModal {...params} />
+    return <ItemForm {...params} />
   }
 
   render() {
@@ -103,7 +106,15 @@ export default class ItemInput extends React.Component {
     return <div className='itemInput dropdown'>
       <FormControl {...formControl} />
       { this.renderDropdown() }
-      { this.renderItemModal() }
+      { this.renderItemForm() }
     </div>;
   }
 } 
+
+function mapStateToProps(state) {
+  return {
+    showItemForm: state.itemFormReducer.get('showItemForm'),
+    loading: state.itemFormReducer.get('loading')
+  };
+}
+export default connect(mapStateToProps)(ItemInput);

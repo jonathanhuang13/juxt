@@ -22,6 +22,7 @@ router.use('/storeItems', StoreItemRouter.routes());
 app
   .use(require('koa-logger')())
   .use(require('kcors')())
+  .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods());
 

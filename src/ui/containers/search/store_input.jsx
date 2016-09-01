@@ -19,7 +19,7 @@ export default class StoreInput extends React.Component {
     const params = {
       type:         'text',
       className:    'form-control input-lg',
-      placeholder:  'Enter store here',
+      placeholder:  'Enter store id here from server',
       onChange:     this.handleStoresUpdate.bind(this)
     }
 

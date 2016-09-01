@@ -2,6 +2,7 @@ import { results } from '../constants/actionTypes';
 
 const { SET_STATE } = results;
 
+/*
 const itemList = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
     title: 'Chicken breast',
     brand: 'Tyson\'s',
@@ -12,7 +13,7 @@ const itemList = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
           acronym: 'TJ',
           price: 7.99,
           amount: 6,
-          unit: 'none' 
+          units: 'none' 
       },
       {   id: '12dda23d-577f-455c-9106-80bbb3688483',
           name: 'Uwajimaya',
@@ -20,12 +21,13 @@ const itemList = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
           acronym: 'UJ',
           price: 9.99,
           amount: 7,
-          unit: 'breasts' 
+          units: 'breasts' 
       } 
     ] 
   }
 ];
+*/
 
-export function fetch(itemIds, storeIds) {
+export function setSearch(itemList) {
   return { type: SET_STATE, state: itemList };
 }

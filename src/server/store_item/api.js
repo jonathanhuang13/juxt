@@ -33,6 +33,18 @@ export async function read(user, { item_id, store_id }) {
   return (new StoreItem({ item_id, store_id })).fetch(options);
 }
 
+export async function readAll(user) {
+  const { read } = getValidator(user);
+
+  const options = {
+    require: true,
+    columns: read.getColumns(),
+  };
+  
+  const items = await StoreItem.fetchAll(options);
+  return items;
+}
+
 export async function update(user, { item_id, store_id }, payload) {
   const { update } = getValidator(user);
   if (!update) return null;
@@ -98,7 +110,7 @@ export async function getItem(user, itemId, storeIds) {
       store = store.toJSON();
       store.price  = entries[0].price;
       store.amount = entries[0].amount;
-      store.unit   = entries[0].unit;
+      store.units   = entries[0].units;
 
       item.stores.push(store);
     }

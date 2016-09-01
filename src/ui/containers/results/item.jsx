@@ -12,7 +12,7 @@ export default class Item extends React.Component {
       itemBrand:     this.props.brand,
       itemPrice:     store.price,
       itemAmount:    store.amount,
-      itemUnit:      store.unit,
+      itemUnit:      store.units,
       storeName:     store.name,
       storeAddress:  store.address
     };

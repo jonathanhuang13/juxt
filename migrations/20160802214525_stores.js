@@ -55,7 +55,7 @@ export async function up(knex, Promise) {
     timestamps(t, knex);
     t.float('price');
     t.float('amount');
-    t.string('unit');
+    t.string('units');
     t.primary(['item_id', 'store_id']);
   });
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonToolbar, Modal, ControlLabel, FormControl, FormGroup } from 'react-bootstrap/lib';
 
-export default class ItemModal extends React.Component {
+export default class ItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { title: null, brand: null, price: null, amount: null, units: null, storeId: null };
@@ -72,16 +72,28 @@ export default class ItemModal extends React.Component {
     return <Modal.Footer>
       <ButtonToolbar className='button-footer'>
         <Button onClick={this.props.onClose}>Close</Button>
-        <Button bsStyle='primary' onClick={this.props.onSubmit.bind(this, info)}>Submit</Button>
+        { this.renderSubmitButton(info) }
       </ButtonToolbar>
     </Modal.Footer> 
   }
 
+  renderSubmitButton(info) {
+    const params = {
+      bsStyle: 'primary',
+      onClick: this.props.onSubmit.bind(null, info),
+      disabled: this.props.loading
+    }
+
+    const value = this.props.loading ? 'Loading' : 'Submit';
+      
+    return <Button {...params}>{value}</Button>
+  }
+
   render() {
-    const { showItemModal, onClose } = this.props;
+    const { showItemForm, onClose } = this.props;
 
     const params = {
-      show: showItemModal,
+      show: showItemForm,
       onHide: onClose
     }
 

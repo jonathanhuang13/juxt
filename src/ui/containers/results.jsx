@@ -7,10 +7,11 @@ import * as searchActions from '../actions/search';
 import * as resultsActions from '../actions/results';
 
 export class Results extends React.Component {
+  /*
   componentDidMount() {
-    const { itemIds, storeIds, dispatch } = this.props;
-    dispatch(resultsActions.fetch(itemIds, storeIds));
+    dispatch(resultsActions.setSearch(null);
   }
+  */
 
   onSubmit(itemNames, storeNames) {
     const { dispatch } = this.props;
@@ -36,6 +37,7 @@ export class Results extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return <div className='results'>
       { this.renderSearch() }
       { this.getList().map(this.renderItem) }

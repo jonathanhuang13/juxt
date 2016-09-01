@@ -6,6 +6,12 @@ const user = { name: 'Jonathan', isSuper: 'true' };
 
 router
 .get('/', async (ctx) => {
+  const storeItems = await StoreItemController.readAll(user);
+  ctx.body = storeItems;
+})
+
+// TODO: is there a way to use GET and have superagent send a body?
+.post('/search', async (ctx) => {
   const itemIds  = ctx.request.body.itemIds;
   const storeIds = ctx.request.body.storeIds;
 
