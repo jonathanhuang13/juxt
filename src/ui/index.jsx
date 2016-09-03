@@ -9,18 +9,25 @@ import { Route, Router, hashHistory } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import sagas from './sagas';
+import * as storage from 'redux-storage';
+import createEngine from 'redux-storage-engine-localstorage';
 
+import sagas from './sagas';
 import reducer from './reducers';
 import routes from './routes'
 
+const engine = createEngine('my-save-key');
+
+const storageMiddleware = storage.createMiddleware(engine);
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducer,
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(storageMiddleware, sagaMiddleware)
 );
 
+const load = storage.createLoader(engine);
+load(store);
 sagaMiddleware.run(sagas);
 
 async function start() {

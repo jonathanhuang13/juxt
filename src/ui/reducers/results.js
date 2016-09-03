@@ -1,10 +1,11 @@
 import { Map, List, fromJS } from 'immutable';
 import { results } from '../constants/actionTypes';
+import localStorage from '../constants/localStorage';
 
 const { SET_STATE } = results;
 
 const initialState = Map({
-  itemList: List() 
+  itemList: localStorage.getIn([ 'resultsReducer', 'itemList' ]) || List()
 });
 
 export default function resultsReducer(state = initialState, action) {

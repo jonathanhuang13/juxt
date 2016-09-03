@@ -1,11 +1,12 @@
 import { Map, fromJS } from 'immutable';
 import { search } from '../constants/actionTypes';
+import localStorage from '../constants/localStorage';
 
 const { SET_SEARCH_ITEMS, SET_SEARCH_STORES } = search;
 
 const initialState = Map({
-  searchedItems: null,
-  searchedStores: null
+  searchedItems:   localStorage.getIn([ 'searchReducer', 'searchedItems' ]) || null,
+  searchedStores:  localStorage.getIn([ 'searchReducer', 'searchedStores' ]) || null
 });
 
 export default function searchReducer(state = initialState, action) {

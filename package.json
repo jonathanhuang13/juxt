@@ -104,6 +104,9 @@
     "redux": "^3.5.2",
     "redux-immutable": "^3.0.8",
     "redux-saga": "^0.11.0",
+    "redux-storage": "^4.1.1",
+    "redux-storage-engine-localstorage": "^1.1.2",
+    "redux-storage-merger-immutablejs": "^1.0.3",
     "superagent": "^2.2.0"
   }
 }
