@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
 import resultsReducer from './results';
 import searchReducer from './search';
 import itemFormReducer from './item-form';

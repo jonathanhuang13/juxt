@@ -43,6 +43,7 @@ export class Results extends React.Component {
   }
 
   render() {
+    console.log('results', this.props);
     return <div className='results'>
       { this.renderSearch() }
       { this.renderFakeButton() }

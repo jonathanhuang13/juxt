@@ -27,5 +27,5 @@ const itemList2 = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
 ];
 
 export function setSearch(itemList) {
-  return { type: SET_STATE, state: itemList2 };
+  return { type: SET_STATE, state: itemList };
 }
