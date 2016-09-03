@@ -8,28 +8,36 @@ export default class Item extends React.Component {
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
 
-  renderStore(store, i) {
+  renderItemTitle() {
     const { item } = this.props;
 
-    const props = { 
-      itemTitle:     item.get('title'),
-      itemBrand:     item.get('brand'),
-      itemPrice:     store.get('price'),
-      itemAmount:    store.get('amount'),
-      itemUnit:      store.get('units'),
-      storeName:     store.get('name'),
-      storeAddress:  store.get('address')
+    const title = item.get('title').toUpperCase();
+    const brand = item.get('brand');
+
+    return <div className='title-group'>
+      <div className='title'>
+        <h1 className='name'>{title}</h1>
+        <h4 className='brand'>Brand: {brand}</h4>
+      </div>
+    </div>
+  }
+
+  renderStore(store, i) {
+    const params = { 
+      index: i, store
     };
 
-    return <Store key={i} {...props} />
+    return <Store key={i} {...params} />
   }
 
   render() {
     const { item } = this.props;
 
-    return <div>
-      <h1>{item.get('title')}</h1>
-      { item.get('stores').map(this.renderStore.bind(this)) }
+    return <div className='item-result'>
+      { this.renderItemTitle() }
+      <div className='store-results'>
+        { item.get('stores').map(this.renderStore.bind(this)) }
+      </div>
     </div>;
   }
 }

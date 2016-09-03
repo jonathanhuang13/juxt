@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Button } from 'react-bootstrap/lib';
 import { List } from 'immutable';
 import Item from './results/item';
@@ -9,11 +10,10 @@ import * as searchActions from '../actions/search';
 import * as resultsActions from '../actions/results';
 
 export class Results extends React.Component {
-  /*
-  componentDidMount() {
-    dispatch(resultsActions.setSearch(null);
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
-  */
 
   onSubmit(itemNames, storeNames) {
     const { dispatch } = this.props;
@@ -34,19 +34,9 @@ export class Results extends React.Component {
     return <Item key={i} item={item} />
   }
 
-  handleFake() {
-    this.props.dispatch(resultsActions.setSearch(null));
-  }
-
-  renderFakeButton() {
-    return <Button onClick={this.handleFake.bind(this)}>Fake</Button>
-  }
-
   render() {
-    console.log('results', this.props);
     return <div className='results'>
       { this.renderSearch() }
-      { this.renderFakeButton() }
       { this.props.itemList.map(this.renderItem) }
     </div>;
   }
@@ -54,7 +44,7 @@ export class Results extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    itemList: state.getIn([ 'resultsReducer', 'itemList' ])
+    itemList: state.getIn([ 'resultsReducer', 'itemList' ]) || List()
   };
 }
 
