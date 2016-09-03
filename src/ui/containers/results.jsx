@@ -53,7 +53,7 @@ export class Results extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    itemList: state.resultsReducer.get('itemList') || List()
+    itemList: state.getIn([ 'resultsReducer', 'itemList' ])
   };
 }
 

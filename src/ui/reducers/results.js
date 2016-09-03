@@ -1,10 +1,10 @@
-import { Map, fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import { results } from '../constants/actionTypes';
 
 const { SET_STATE } = results;
 
 const initialState = Map({
-  itemList: null
+  itemList: List() 
 });
 
 export default function resultsReducer(state = initialState, action) {

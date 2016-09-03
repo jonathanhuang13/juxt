@@ -86,8 +86,8 @@ class Search extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    showItemForm: state.itemFormReducer.get('showItemForm'),
-    loading: state.itemFormReducer.get('loading')
+    showItemForm:  state.getIn([ 'itemFormReducer', 'showItemForm' ]),
+    loading:       state.getIn([ 'itemFormReducer', 'loading' ])
   };
 }
 
