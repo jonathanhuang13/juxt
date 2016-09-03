@@ -5,7 +5,7 @@ import ItemForm from '../form/item-form';
 
 import * as itemFormActions from '../../actions/item-form';
 
-class ItemInput extends React.Component {
+export default class ItemInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = { itemNames: null, showDropdown: false, showItemForm: false };
@@ -27,15 +27,15 @@ class ItemInput extends React.Component {
   }
 
   handleShowForm() {
-    this.props.dispatch(itemFormActions.handleShowForm());
+    this.props.onShowForm();
   }
 
   handleCloseForm() {
-    this.props.dispatch(itemFormActions.handleHideForm());
+    this.props.onCloseForm();
   }
 
   handleFormSubmit(info) {
-    this.props.onItemsAdd(info);
+    this.props.onSubmitForm(info);
   }
 
   renderDropdown() {
@@ -110,11 +110,3 @@ class ItemInput extends React.Component {
     </div>;
   }
 } 
-
-function mapStateToProps(state) {
-  return {
-    showItemForm: state.itemFormReducer.get('showItemForm'),
-    loading: state.itemFormReducer.get('loading')
-  };
-}
-export default connect(mapStateToProps)(ItemInput);

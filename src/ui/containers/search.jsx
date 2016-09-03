@@ -29,7 +29,15 @@ class Search extends React.Component {
     //router.push('/results');
   }
 
-  handleItemsAdd(info) {
+  handleShowItemForm() {
+    this.props.dispatch(itemFormActions.handleShowForm());
+  }
+
+  handleCloseItemForm() {
+    this.props.dispatch(itemFormActions.handleHideForm());
+  }
+
+  handleSubmitItemForm(info) {
     this.props.dispatch(itemFormActions.handleSubmit(info));
   }
 
@@ -46,8 +54,12 @@ class Search extends React.Component {
 
   renderItemInput() {
     const params = {
+      showItemForm:   this.props.showItemForm,
+      loading:        this.props.loading,
       onItemsUpdate:  this.handleItemsUpdate.bind(this),
-      onItemsAdd:     this.handleItemsAdd.bind(this)
+      onCloseForm:    this.handleCloseItemForm.bind(this),
+      onShowForm:     this.handleShowItemForm.bind(this),
+      onSubmitForm:   this.handleSubmitItemForm.bind(this)
     }
 
     return <ItemInput {...params}/>;
@@ -72,10 +84,17 @@ class Search extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    showItemForm: state.itemFormReducer.get('showItemForm'),
+    loading: state.itemFormReducer.get('loading')
+  };
+}
+
 Search.propTypes = {
   router: React.PropTypes.shape({
     push: React.PropTypes.func.isRequired
   }).isRequired
 };
 
-export default connect()(withRouter(Search));
+export default connect(mapStateToProps)(withRouter(Search));

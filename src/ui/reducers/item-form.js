@@ -17,7 +17,6 @@ export default function searchReducer(state = initialState, action) {
       return state.setIn([ 'showItemForm' ], false); 
 
     case LOADING:
-      console.log('in reducer');
       return state.setIn([ 'loading' ], true); 
 
     case FINISHED_SUBMIT:
