@@ -1,4 +1,4 @@
-import { results } from '../constants/actionTypes';
+import { results } from '../utils/action-types';
 
 const { SET_STATE } = results;
 

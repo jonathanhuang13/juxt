@@ -1,6 +1,6 @@
 import { Map, fromJS } from 'immutable';
-import { search } from '../constants/actionTypes';
-import localStorage from '../constants/localStorage';
+import { search } from '../utils/action-types';
+import localStorage from '../utils/local-storage';
 
 const { SET_SEARCH_ITEMS, SET_SEARCH_STORES } = search;
 

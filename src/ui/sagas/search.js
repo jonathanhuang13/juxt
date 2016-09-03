@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { put, take } from 'redux-saga/effects';
-import * as actions  from '../constants/actionTypes';
+import * as actions  from '../utils/action-types';
 import * as searchActions from '../actions/search';
 import * as resultsActions from '../actions/results';
 
@@ -52,7 +52,7 @@ export function* setSearch() {
     const storeIds = stores.map((store) => { return store.id });
 
     const itemList = yield fetchItemList(itemIds, storeIds);
-    console.log(itemList);
+    console.log('search saga itemList: ', itemList);
 
     // Dispatch to state
     yield put(resultsActions.setSearch(itemList));

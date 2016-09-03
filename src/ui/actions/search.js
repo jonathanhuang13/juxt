@@ -1,4 +1,4 @@
-import { search } from '../constants/actionTypes';
+import { search } from '../utils/action-types';
 
 const { SUBMIT, SET_SEARCH_ITEMS, SET_SEARCH_STORES } = search;
 

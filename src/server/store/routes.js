@@ -1,4 +1,4 @@
-import { uuidUnparse } from '../../../constants/uuid-parser';
+import { uuidUnparse } from '../../utils/uuid-parser';
 import { Store } from '../book';
 import * as StoreController from './api';
 

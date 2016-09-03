@@ -1,4 +1,4 @@
-import { itemForm } from '../constants/actionTypes';
+import { itemForm } from '../utils/action-types';
 
 const { SUBMIT, SHOW_FORM, HIDE_FORM, LOADING, FINISHED_SUBMIT } = itemForm;
 

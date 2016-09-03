@@ -1,6 +1,6 @@
 import { Map, List, fromJS } from 'immutable';
-import { results } from '../constants/actionTypes';
-import localStorage from '../constants/localStorage';
+import { results } from '../utils/action-types';
+import localStorage from '../utils/local-storage';
 
 const { SET_STATE } = results;
 
