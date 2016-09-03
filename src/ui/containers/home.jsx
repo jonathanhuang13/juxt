@@ -1,11 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import produceImage from '../assets/images/produce.png';
 import Search from './search';
 
 import * as searchActions from '../actions/search';
 
 export class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   onSubmit(itemNames, storeNames) {
     const { dispatch } = this.props;
 

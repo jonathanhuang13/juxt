@@ -1,9 +1,12 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { FormControl } from 'react-bootstrap/lib';
 
 export default class StoreInput extends React.Component {
   constructor(props) {
     super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+
     this.state = { storeNames: null };
   }
 

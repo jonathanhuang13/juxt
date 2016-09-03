@@ -98,6 +98,7 @@
     "koa-logger": "^2.0.0",
     "koa-router": "^7.0.1",
     "node-uuid": "^1.4.7",
+    "react-addons-pure-render-mixin": "^15.3.1",
     "react-bootstrap": "^0.30.3",
     "react-redux": "^4.4.5",
     "react-router": "^2.7.0",

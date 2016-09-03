@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { withRouter } from 'react-router';
 import { Button, Form, FormGroup } from 'react-bootstrap/lib';
 import ItemInput from './search/item-input';
@@ -10,6 +11,8 @@ import * as itemFormActions from '../actions/item-form';
 class Search extends React.Component {
   constructor(props) {
     super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+
     this.state = { itemNames: null, storeNames: null };
   }
 

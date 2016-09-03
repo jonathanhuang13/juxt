@@ -1,7 +1,13 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Store from './store';
 
 export default class Item extends React.Component {
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   renderStore(store, i) {
     const { item } = this.props;
 
