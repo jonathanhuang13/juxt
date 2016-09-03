@@ -43,11 +43,4 @@ export class Home extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    searchedItems: state.searchReducer.get('searchedItems'),
-    searchedStores: state.searchReducer.get('searchedStores')
-  };
-}
-
-export default connect(mapStateToProps)(Home);
+export default connect()(Home);

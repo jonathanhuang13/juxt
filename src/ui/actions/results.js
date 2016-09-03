@@ -2,8 +2,7 @@ import { results } from '../constants/actionTypes';
 
 const { SET_STATE } = results;
 
-/*
-const itemList = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
+const itemList2 = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
     title: 'Chicken breast',
     brand: 'Tyson\'s',
     stores: [
@@ -26,8 +25,7 @@ const itemList = [{ id: 'a7f54f1e-c564-43ab-a38e-4a616cdba438',
     ] 
   }
 ];
-*/
 
 export function setSearch(itemList) {
-  return { type: SET_STATE, state: itemList };
+  return { type: SET_STATE, state: itemList2 };
 }

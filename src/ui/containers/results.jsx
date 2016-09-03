@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap/lib';
+import { List } from 'immutable';
 import Item from './results/item';
 import Search from './search';
 
@@ -19,10 +21,6 @@ export class Results extends React.Component {
     dispatch(searchActions.handleSubmit(itemNames, storeNames));
   }
 
-  getList() {
-    return this.props.itemList || [];
-  }
-
   renderSearch() {
     const props = {
       inputs: [ 'items', 'stores' ],
@@ -33,21 +31,29 @@ export class Results extends React.Component {
   }
 
   renderItem(item, i) {
-    return <Item key={i} {...item} />
+    return <Item key={i} item={item} />
+  }
+
+  handleFake() {
+    this.props.dispatch(resultsActions.setSearch(null));
+  }
+
+  renderFakeButton() {
+    return <Button onClick={this.handleFake.bind(this)}>Fake</Button>
   }
 
   render() {
-    console.log(this.props);
     return <div className='results'>
       { this.renderSearch() }
-      { this.getList().map(this.renderItem) }
+      { this.renderFakeButton() }
+      { this.props.itemList.map(this.renderItem) }
     </div>;
   }
 }
 
 function mapStateToProps(state) {
   return {
-    itemList: state.resultsReducer.get('itemList')
+    itemList: state.resultsReducer.get('itemList') || List()
   };
 }
 
