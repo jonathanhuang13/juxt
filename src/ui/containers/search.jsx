@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Button, Form, FormGroup } from 'react-bootstrap/lib';
-import ItemInput from './search/item_input';
-import StoreInput from './search/store_input';
+import ItemInput from './search/item-input';
+import StoreInput from './search/store-input';
 
-import * as itemFormActions from '../actions/item_form';
+import * as itemFormActions from '../actions/item-form';
 
 class Search extends React.Component {
   constructor(props) {

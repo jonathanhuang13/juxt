@@ -18,7 +18,6 @@ export function handleSubmit(info) {
 
 // These actions are called from saga
 export function loadingSubmit() {
-  console.log('in actions');
   return ({ type: LOADING });
 }
 

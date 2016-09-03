@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ButtonToolbar, Button, FormControl } from 'react-bootstrap/lib';
-import ItemForm from '../form/item_form';
+import ItemForm from '../form/item-form';
 
-import * as itemFormActions from '../../actions/item_form';
+import * as itemFormActions from '../../actions/item-form';
 
 class ItemInput extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LinkComponent as Link } from './common_components';
+import { LinkComponent as Link } from './common-components';
 
 export default class Header extends React.Component {
   render() {

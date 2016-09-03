@@ -1,4 +1,4 @@
-import { uuidUnparse } from '../../../constants/uuid_parser';
+import { uuidUnparse } from '../../../constants/uuid-parser';
 import * as StoreItemController from './api';
 
 const router = require('koa-router')();

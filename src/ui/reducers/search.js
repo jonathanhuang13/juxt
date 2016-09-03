@@ -1,9 +1,9 @@
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import { search } from '../constants/actionTypes';
 
 const { SET_SEARCH_ITEMS, SET_SEARCH_STORES } = search;
 
-const initialState = Map({
+const initialState = fromJS({
   searchedItems: null,
   searchedStores: null
 });

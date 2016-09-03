@@ -2,10 +2,10 @@ import request from 'superagent';
 import { put, take, call } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import uuid from 'node-uuid';
-import { uuidUnparse } from '../../../constants/uuid_parser';
+import { uuidUnparse } from '../../../constants/uuid-parser';
 
 import * as actions from '../constants/actionTypes';
-import * as itemFormAction from '../actions/item_form';
+import * as itemFormAction from '../actions/item-form';
 
 function* postItem(payload) {
   const itemsResponse = yield request

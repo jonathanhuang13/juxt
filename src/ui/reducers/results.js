@@ -1,9 +1,9 @@
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import { results } from '../constants/actionTypes';
 
 const { SET_STATE } = results;
 
-const initialState = Map({
+const initialState = fromJS({
   itemList: null
 });
 

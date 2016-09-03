@@ -1,9 +1,9 @@
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import { itemForm } from '../constants/actionTypes';
 
 const { SHOW_FORM, HIDE_FORM, LOADING, FINISHED_SUBMIT } = itemForm;
 
-const initialState = Map({
+const initialState = fromJS({
   loading: false,
   showItemForm: false
 });
