@@ -14,6 +14,11 @@ export async function create(user, payload) {
   const { create } = getValidator(user);
   if (!create) return null;
 
+  const { item_id, store_id } = payload;
+  const existingStoreItem     = await read(user, { item_id, store_id });
+
+  if (existingStoreItem) return { duplicate: existingStoreItem };
+
   const options = {
     method: 'insert',
   };
@@ -26,10 +31,10 @@ export async function read(user, { item_id, store_id }) {
   const { read } = getValidator(user);
 
   const options = {
-    require: true,
     columns: read.getColumns(),
   };
 
+  var i = await new StoreItem({ item_id, store_id });
   return (new StoreItem({ item_id, store_id })).fetch(options);
 }
 
@@ -76,15 +81,25 @@ export async function del(user, { item_id, store_id }) {
 export async function createItem(user, payload, storeIds) {
   const { create } = getValidator(user);
   if (!create) return null;
+
+  var resp = {
+    duplicates: [],
+    fails: []
+  }
   
   for (const storeId of storeIds) {
     payload.store_id = storeId;
     const storeItem = await this.create(user, payload);
 
-    if (!storeItem) return false;
+    // Error handling
+    if (!storeItem) {
+      resp.fails.push(storeId);
+    } else if (storeItem.duplicate) {
+      resp.duplicates.push(storeId);
+    } 
   }
 
-  return true;
+  return resp;
 }
 
 // Get items in JSON format given an array of stores

@@ -1,6 +1,6 @@
 import { itemForm } from '../utils/action-types';
 
-const { SUBMIT, SHOW_FORM, HIDE_FORM, LOADING, FINISHED_SUBMIT, FAILED_SUBMIT } = itemForm;
+const { SUBMIT, SHOW_FORM, HIDE_FORM, LOADING, FINISHED_SUBMIT, FAILED_SUBMIT, DUPLICATE_SUBMIT } = itemForm;
 
 // These actions are called from containers
 export function handleShowForm() {
@@ -27,4 +27,8 @@ export function finishedSubmit() {
 
 export function failedSubmit() {
   return ({ type: FAILED_SUBMIT });
+}
+
+export function duplicateSubmit(duplicates) {
+  return ({ type: DUPLICATE_SUBMIT, duplicates });
 }

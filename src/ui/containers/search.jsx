@@ -56,10 +56,10 @@ class Search extends React.Component {
   }
 
   renderItemInput() {
-    const { showItemForm, loading, addFailed } = this.props;
+    const { showItemForm, loading, addFailed, duplicates } = this.props;
 
     const params = {
-      showItemForm, loading, addFailed,
+      showItemForm, loading, addFailed, duplicates,
       onItemsUpdate:  this.handleItemsUpdate.bind(this),
       onCloseForm:    this.handleCloseItemForm.bind(this),
       onShowForm:     this.handleShowItemForm.bind(this),
@@ -94,7 +94,8 @@ function mapStateToProps(state) {
   return {
     showItemForm:  state.getIn([ 'itemFormReducer', 'showItemForm' ]),
     loading:       state.getIn([ 'itemFormReducer', 'loading' ]),
-    addFailed:     state.getIn([ 'itemFormReducer', 'addFailed' ])
+    addFailed:     state.getIn([ 'itemFormReducer', 'addFailed' ]),
+    duplicates:    state.getIn([ 'itemFormReducer', 'duplicates' ]),
   };
 }
 

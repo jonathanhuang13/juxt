@@ -15,7 +15,7 @@ export async function create(user, payload) {
   const { title, brand } = payload;
   const existingItem     = await readByTitleBrand(user, { title, brand });
 
-  if (existingItem)  return existingItem;
+  if (existingItem) return existingItem;
 
   const options = {
     method: 'insert',

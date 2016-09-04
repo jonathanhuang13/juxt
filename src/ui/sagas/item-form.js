@@ -21,7 +21,7 @@ function* postStoreItem(payload, storeIds) {
       .post('http://localhost:3000/storeItems/')
       .send({ payload, storeIds });
 
-    return { response };
+    return { response: JSON.parse(response.text) };
   } catch (err) {
     return { err };
   }
@@ -32,8 +32,13 @@ export function* addItem() {
     const { info } = yield take(actions.itemForm.SUBMIT);
     const { title, brand, price, amount, units, storeId } = info;
 
+    if (!title || !storeId) {
+      yield put(itemFormAction.failedSubmit());
+      continue;
+    }
+
     // Dispatch that you're saving the item
-    // yield put(itemFormAction.loadingSubmit());
+    yield put(itemFormAction.loadingSubmit());
 
     // Post the item
     const itemId      = uuid.v4();
@@ -48,7 +53,11 @@ export function* addItem() {
     const { response, err } = yield postStoreItem(payload, storeIds);
 
     if (response) {
-      yield put(itemFormAction.finishedSubmit());
+      if (response.duplicates.length > 0) {
+        yield put(itemFormAction.duplicateSubmit(response.duplicates));
+      } else {
+        yield put(itemFormAction.finishedSubmit());
+      }
     } else {
       yield put(itemFormAction.failedSubmit());
     }

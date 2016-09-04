@@ -87,6 +87,7 @@ export default class ItemForm extends React.Component {
 
     return <Modal.Footer>
       { this.renderFailureAlert() }
+      { this.renderDuplicatesAlert() }
       <ButtonToolbar className='button-footer'>
         <Button onClick={this.props.onClose}>Close</Button>
         { this.renderSubmitButton(info) }
@@ -111,7 +112,17 @@ export default class ItemForm extends React.Component {
 
     return <div className='fail-alert'>
       <div className='alert alert-danger' role='alert'>
-        Failed to attach item to a store, please check store uuid.
+        Failed to attach item to a store. Please enter valid item title and store uuid.
+      </div>
+    </div>
+  }
+
+  renderDuplicatesAlert() {
+    if (!this.props.duplicates) return null;
+
+    return <div className='fail-alert'>
+      <div className='alert alert-warning' role='alert'>
+        Store item pair already exists in the database.
       </div>
     </div>
   }

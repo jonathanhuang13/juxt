@@ -5,7 +5,7 @@ export const results = {
 export const search = {
   SUBMIT:             'SEARCH_ SUBMIT',
   SET_SEARCH_ITEMS:   'SET_SEARCH_ITEMS',
-  SET_SEARCH_STORES:  'SET_SEARCH_STORES'
+  SET_SEARCH_STORES:  'SET_SEARCH_STORES',
 };
 
 export const itemForm = {
@@ -14,5 +14,6 @@ export const itemForm = {
   HIDE_FORM:        'ITEM_HIDE_FORM',
   LOADING:          'ITEM_LOADING',
   FINISHED_SUBMIT:  'ITEM_FINISHED_SUBMIT',
-  FAILED_SUBMIT:    'ITEM_FAILED_SUBMIT'
+  FAILED_SUBMIT:    'ITEM_FAILED_SUBMIT',
+  DUPLICATE_SUBMIT: 'ITEM_DUPLICATE_SUBMIT',
 };
