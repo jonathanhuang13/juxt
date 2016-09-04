@@ -131,6 +131,10 @@ export async function getItem(user, itemId, storeIds) {
     }
   }
 
+  // Sort stores
+  const stores = item.stores.sort((a, b) => {return (a.price - b.price)});
+  item.stores = stores;
+
   return item;
 } 
 
@@ -156,8 +160,6 @@ export async function getItems(user, itemIds, storeIds) {
     const item = await getItem(user, itemId, storeIds);
     items.push(item);
   }
-
-  items.sort((a, b) => { a.price - b.price });
 
   return items;
 }
