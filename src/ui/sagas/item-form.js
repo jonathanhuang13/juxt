@@ -30,7 +30,7 @@ export function* addItem() {
     const { title, brand, price, amount, units, storeId } = info;
 
     // Dispatch that you're saving the item
-    yield put(itemFormAction.loadingSubmit());
+    // yield put(itemFormAction.loadingSubmit());
 
     // Post the item
     const itemId      = uuid.v4();
@@ -39,7 +39,7 @@ export function* addItem() {
     const item = yield postItem(itemPayload);
 
     // Post the item-store to the join table
-    const payload  = { item_id: itemId, price, amount, units };
+    const payload  = { item_id: item.id, price, amount, units };
     const storeIds = [ uuidUnparse(storeId) ];
 
     yield postStoreItem(payload, storeIds);

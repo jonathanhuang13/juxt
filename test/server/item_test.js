@@ -98,7 +98,7 @@ describe('items api', async () => {
 
   it('super - create', async () => {
     const id     = uuid.v1();
-    const title  = 'Almond milk'
+    const title  = 'Almond milk';
     const brand  = 'Horizon\'s';
     const tags   = ['non-dairy', 'organic'];
 
@@ -122,6 +122,35 @@ describe('items api', async () => {
     for (var i = 0; i < tags.length; i++) {
       createdItem.tags[i].should.equal(tags[i]);
     }
+  });
+
+  it('super - create duplicate', async () => {
+    var id      = uuid.v4();
+    const title = 'Almond milk';
+    const brand = 'Horizon\'s';
+
+    const user = {
+      name: 'Jonathan', isSuper: true 
+    };
+
+    var payload = {
+      id, title, brand
+    };
+
+    await api.create(user, payload);
+
+    // Check first insert
+    var createdItems = await knex('items').where('title', title).andWhere('brand', brand);
+    createdItems.length.should.equal(1);
+
+    // Insert duplicated item
+    id = uuid.v4();
+    payload.id = id;
+    await api.create(user, payload);
+
+    // Check to make sure no duplicates
+    createdItems = await knex('items').where('title', title).andWhere('brand', brand);
+    createdItems.length.should.equal(1);
   });
 
   it('super - read', async () => {

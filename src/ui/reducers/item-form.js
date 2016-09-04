@@ -21,7 +21,7 @@ export default function searchReducer(state = initialState, action) {
 
     case FINISHED_SUBMIT:
       const newState = state.set('showItemForm', false);
-      return newState.setIn('loading', false);
+      return newState.set('loading', false);
 
     default:
       return state;

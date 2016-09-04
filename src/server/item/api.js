@@ -12,13 +12,16 @@ export async function create(user, payload) {
   const { create } = getValidator(user);
   if (!create) return null;
 
+  const { title, brand } = payload;
+  const existingItem     = await readByTitleBrand(user, { title, brand });
+
+  if (existingItem)  return existingItem;
+
   const options = {
     method: 'insert',
   };
 
   return (new Item(payload)).save(null, options);
-
-  return item;
 }
 
 export async function readAll(user) {
@@ -41,9 +44,17 @@ export async function read(user, { id }) {
     columns: read.getColumns(),
   };
 
-  const i = await new Item({ id });
-
   return (new Item({ id })).fetch(options);
+}
+
+export async function readByTitleBrand(user, { title, brand }) {
+  const { read } = getValidator(user);
+
+  const options = {
+    columns: read.getColumns(),
+  };
+
+  return (new Item({ title, brand })).fetch(options);
 }
 
 export async function search(user, term) {
