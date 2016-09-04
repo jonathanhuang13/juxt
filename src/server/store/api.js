@@ -37,7 +37,6 @@ export async function read(user, { id }) {
   const { read } = getValidator(user);
 
   const options = {
-    require: true,
     columns: read.getColumns(),
   };
 

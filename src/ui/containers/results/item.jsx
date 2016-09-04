@@ -8,6 +8,10 @@ export default class Item extends React.Component {
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
 
+  storesExist() {
+    return this.props.item.get('stores').size > 0;
+  }
+
   renderItemTitle() {
     const { item } = this.props;
 
@@ -22,6 +26,16 @@ export default class Item extends React.Component {
     </div>
   }
 
+  renderStores() {
+    const { item } = this.props;
+
+    if (this.storesExist()) {
+      return item.get('stores').map(this.renderStore.bind(this));
+    } else {
+      return this.renderEmptyList();
+    }
+  }
+
   renderStore(store, i) {
     const params = { 
       index: i, store
@@ -30,13 +44,19 @@ export default class Item extends React.Component {
     return <Store key={i} {...params} />
   }
 
-  render() {
-    const { item } = this.props;
+  renderEmptyList() {
+    return <div className='fail-alert'>
+      <div className='alert alert-warning' role='alert'>
+        No stores found for this item.
+      </div>
+    </div>
+  }
 
+  render() {
     return <div className='item-result'>
       { this.renderItemTitle() }
       <div className='store-results'>
-        { item.get('stores').map(this.renderStore.bind(this)) }
+        { this.renderStores() }
       </div>
     </div>;
   }

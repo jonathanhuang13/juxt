@@ -15,6 +15,10 @@ export class Results extends React.Component {
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
   }
 
+  itemsExist() {
+    return this.props.itemList.size > 0;
+  }
+
   onSubmit(itemNames, storeNames) {
     const { dispatch } = this.props;
 
@@ -31,15 +35,31 @@ export class Results extends React.Component {
     </div>
   }
 
+  renderItems() {
+    if (this.itemsExist()) {
+      return this.props.itemList.map(this.renderItem);
+    } else {
+      return this.renderEmptyList();
+    }
+  }
+
   renderItem(item, i) {
     return <Item key={i} item={item} />
+  }
+
+  renderEmptyList() {
+    return <div className='fail-alert item-result'>
+      <div className='alert alert-warning' role='alert'>
+        No results found.
+      </div>
+    </div>
   }
 
   render() {
     return <div className='results'>
       { this.renderSearch() }
-      { this.props.itemList.map(this.renderItem) }
-    </div>;
+      { this.renderItems() }
+    </div>
   }
 }
 

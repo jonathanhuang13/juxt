@@ -5,18 +5,29 @@ import * as searchActions from '../actions/search';
 import * as resultsActions from '../actions/results';
 
 function* fetchItems(itemNames) {
+  if (!itemNames) return [];
+
   const itemsRequest = yield request.get('http://localhost:3000/items/search/' + itemNames);
   return (JSON.parse(itemsRequest.text));
 }
 
 function* fetchStoresByName(storeNames) {
+  if (!storeNames) return null;
+
   const storesRequest = yield request.get('http://localhost:3000/stores/search/' + storeNames);
   return (JSON.parse(storesRequest.text));
 }
 
+function* fetchAllStores() {
+  const storesRequest = yield request.get('http://localhost:3000/stores/');
+  return (JSON.parse(storesRequest.text));
+}
+
 function* fetchStoreById(storeId) {
+  if (!storeId) return [];
+
   const storeRequest = yield request.get('http://localhost:3000/stores/' + storeId);
-  return (JSON.parse(storeRequest.text)); 
+  return ([JSON.parse(storeRequest.text)]); 
 }
 
 function* fetchItemList(itemIds, storeIds) {
@@ -33,15 +44,12 @@ export function* setSearch() {
     const { itemNames, storeNames, route } = search;
 
     var items  = yield fetchItems(itemNames);
-    var stores = yield fetchStoreById(storeNames);
+    var stores = null;
 
-    // TODO: Do I want to enforce an array?
-    if (!Array.isArray(items)) {  // Don't think this one is necessasry
-      items = [ items ];
-    }
-
-    if (!Array.isArray(stores)) {
-      stores = [ stores ];
+    if (!storeNames) {
+      stores = yield fetchAllStores();
+    } else {
+      stores = yield fetchStoreById(storeNames);
     }
 
     yield put(searchActions.setItemSearch(items));
