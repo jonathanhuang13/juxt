@@ -50,13 +50,29 @@ export default class ItemForm extends React.Component {
   renderInput(input, i) {
     // TODO: this is kind of a hack to get the handle*Update functions
     const updateFun = 'handle' + input + 'Update';
-    var placeholder = null;
+    var placeholder = 'i.e. ';
 
-    if (input === 'StoreId') {
-      input = 'Store ID';
-      placeholder = 'Enter store uuid obtained from server';
-    } else {
-      placeholder = 'Enter ' + input;
+    switch (input) {
+      case 'Title':
+        placeholder += 'Chicken breast, required';
+        break;
+      case 'Brand':
+        placeholder += 'Tyson\'s';
+        break;
+      case 'Price':
+        placeholder += '7.99';
+        break;
+      case 'Amount':
+        placeholder += '4';
+        break;
+      case 'Units':
+        placeholder += 'breasts';
+        break;
+      case 'StoreId':
+        placeholder += 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, uuid obtained from server';
+        break;
+      default:
+        placeholder = '';
     }
 
     return <FormGroup key={i}>
@@ -79,9 +95,9 @@ export default class ItemForm extends React.Component {
 
   renderSubmitButton(info) {
     const params = {
-      bsStyle: 'primary',
-      onClick: this.props.onSubmit.bind(null, info),
-      disabled: this.props.loading
+      bsStyle:   'primary',
+      onClick:   this.props.onSubmit.bind(null, info),
+      disabled:  this.props.loading
     }
 
     const value = this.props.loading ? 'Loading' : 'Submit';
@@ -93,8 +109,8 @@ export default class ItemForm extends React.Component {
     const { showItemForm, onClose } = this.props;
 
     const params = {
-      show: showItemForm,
-      onHide: onClose
+      show:    showItemForm,
+      onHide:  onClose
     }
 
     return <Modal {...params}>
