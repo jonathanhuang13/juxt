@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import produceImage from '../assets/images/produce.png';
+import Header from './header';
 import Search from './search';
 
 import * as searchActions from '../actions/search';
@@ -27,7 +28,7 @@ export class Home extends React.Component {
   }
 
   renderTitle() {
-    return <div>
+    return <div className='text'>
       <h1 className='title'>Cheaper groceries, tastier meals</h1>
       <br />
       <h3 className='subtitle'>Compare grocery prices across your favorite stores</h3>
@@ -43,8 +44,10 @@ export class Home extends React.Component {
     };
 
     return <div className='home' style={ imageStyle }>
-      { this.renderTitle() }
-      { this.renderSearch() }
+      <div className='home-info'>
+        { this.renderTitle() }
+        { this.renderSearch() }
+      </div>
     </div>
   }
 }

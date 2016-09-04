@@ -23,11 +23,12 @@ export class Results extends React.Component {
 
   renderSearch() {
     const props = {
-      inputs: [ 'items', 'stores' ],
-      className: 'form-group',
       handleSubmit: this.onSubmit.bind(this),
     }
-    return <Search {...props} />;
+
+    return <div className='search-bar'>
+      <Search {...props} />
+    </div>
   }
 
   renderItem(item, i) {
