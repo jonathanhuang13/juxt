@@ -86,6 +86,7 @@ export default class ItemForm extends React.Component {
     const info = { title, brand, price, amount, units, storeId };
 
     return <Modal.Footer>
+      { this.renderFailureAlert() }
       <ButtonToolbar className='button-footer'>
         <Button onClick={this.props.onClose}>Close</Button>
         { this.renderSubmitButton(info) }
@@ -105,6 +106,16 @@ export default class ItemForm extends React.Component {
     return <Button {...params}>{value}</Button>
   }
 
+  renderFailureAlert() {
+    if (!this.props.addFailed) return null;
+
+    return <div className='fail-alert'>
+      <div className='alert alert-danger' role='alert'>
+        Failed to attach item to a store, please check store uuid.
+      </div>
+    </div>
+  }
+
   render() {
     const { showItemForm, onClose } = this.props;
 
@@ -113,10 +124,12 @@ export default class ItemForm extends React.Component {
       onHide:  onClose
     }
 
-    return <Modal {...params}>
-      { this.renderHeader() }
-      { this.renderBody() }
-      { this.renderFooter() }     
-    </Modal>
+    return <div className='form-container'>
+      <Modal {...params}>
+        { this.renderHeader() }
+        { this.renderBody() }
+        { this.renderFooter() }     
+      </Modal>
+    </div>
   }
 }

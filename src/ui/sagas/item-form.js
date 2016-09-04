@@ -12,16 +12,19 @@ function* postItem(payload) {
     .post('http://localhost:3000/items/')
     .send(payload); 
 
-  return(JSON.parse(itemsResponse.text));
+  return (JSON.parse(itemsResponse.text));
 }
 
 function* postStoreItem(payload, storeIds) {
-  const response = yield request
-    .post('http://localhost:3000/storeItems/')
-    .send({ payload, storeIds });
+  try {
+    const response = yield request
+      .post('http://localhost:3000/storeItems/')
+      .send({ payload, storeIds });
 
-  // TODO: what if it fails?
-  return response;
+    return { response };
+  } catch (err) {
+    return { err };
+  }
 }
 
 export function* addItem() {
@@ -42,9 +45,12 @@ export function* addItem() {
     const payload  = { item_id: item.id, price, amount, units };
     const storeIds = [ uuidUnparse(storeId) ];
 
-    yield postStoreItem(payload, storeIds);
+    const { response, err } = yield postStoreItem(payload, storeIds);
 
-    // Dispatch that adding was successful
-    yield put(itemFormAction.finishedSubmit());
+    if (response) {
+      yield put(itemFormAction.finishedSubmit());
+    } else {
+      yield put(itemFormAction.failedSubmit());
+    }
   }
 }

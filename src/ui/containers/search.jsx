@@ -56,9 +56,10 @@ class Search extends React.Component {
   }
 
   renderItemInput() {
+    const { showItemForm, loading, addFailed } = this.props;
+
     const params = {
-      showItemForm:   this.props.showItemForm,
-      loading:        this.props.loading,
+      showItemForm, loading, addFailed,
       onItemsUpdate:  this.handleItemsUpdate.bind(this),
       onCloseForm:    this.handleCloseItemForm.bind(this),
       onShowForm:     this.handleShowItemForm.bind(this),
@@ -77,20 +78,23 @@ class Search extends React.Component {
   }
 
   render() {
-    return <Form inline className='search'>
-      <FormGroup className='inputs'>
-        { this.renderItemInput() }
-        { this.renderStoreInput() }
-      </FormGroup>
-      <FormGroup>{ this.renderSubmit() }</FormGroup>
-    </Form>;
+    return <div className='search-container'>
+      <Form inline className='search'>
+        <FormGroup className='inputs'>
+          { this.renderItemInput() }
+          { this.renderStoreInput() }
+        </FormGroup>
+        <FormGroup>{ this.renderSubmit() }</FormGroup>
+      </Form>
+    </div>
   }
 }
 
 function mapStateToProps(state) {
   return {
     showItemForm:  state.getIn([ 'itemFormReducer', 'showItemForm' ]),
-    loading:       state.getIn([ 'itemFormReducer', 'loading' ])
+    loading:       state.getIn([ 'itemFormReducer', 'loading' ]),
+    addFailed:     state.getIn([ 'itemFormReducer', 'addFailed' ])
   };
 }
 

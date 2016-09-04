@@ -90,6 +90,7 @@ export default class ItemInput extends React.Component {
     const params = {
       showItemForm:  this.props.showItemForm,
       loading:       this.props.loading,
+      addFailed:     this.props.addFailed,
       onClose:       this.handleCloseForm.bind(this),
       onSubmit:      this.handleFormSubmit.bind(this)
     }
