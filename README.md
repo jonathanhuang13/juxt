@@ -9,7 +9,7 @@ Results Page
 ## Tech
 * postgres
 * node: koa, knex/bookshelf.js
-* ui: react, redux, redux-saga, immutable, superagent
+* ui: react, redux, redux-saga, immutable, superagent, react-bootstrap, less
 
 ## Developing
 * "npm run dev" - runs everything you need for development
@@ -20,6 +20,7 @@ Results Page
 * "npm run migrate:latest" migrate to lastest version
 * "npm run migrate:rollback" rollback a version
 * "npm run migrate:redo" go back and move forward
+* "npm run seed:run" seed database
 
 ## Installation
 
@@ -57,3 +58,14 @@ cd juxt
 brew install node
 npm install 
 ```
+
+*Setup to run*
+
+```bash
+npm run migrate:latest
+npm run seed:run
+npm run dev
+```
+
+Go to http://localhost:8080/. API server is running on http://localhost:3000/. Add items by click on the item search bar before you go to results because store_item JOIN table is not seeded.
+
