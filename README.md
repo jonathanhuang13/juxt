@@ -1,5 +1,10 @@
 # juxt
-Juxt
+### Grocery Price Comparison App
+Home Page
+![Home Page](src/ui/assets/images/samples/home.png)
+
+Results Page
+![Results Page](src/ui/assets/images/samples/results.png)
 
 ## Tech
 * postgres
