@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { ButtonToolbar, Button, FormControl } from 'react-bootstrap/lib';
+import { ButtonToolbar, Button, FormControl, DropdownButton, MenuItem } from 'react-bootstrap/lib';
 import ItemForm from '../form/item-form';
 
 import * as itemFormActions from '../../actions/item-form';
@@ -42,13 +42,11 @@ export default class ItemInput extends React.Component {
   }
 
   renderDropdown() {
-    if (!this.state.showDropdown) return null;
-
-    return <div className='dropdown-menu'>
-      <div className='list'>
-        { this.renderButtons() }
-      </div> 
-    </div>
+    return <ButtonToolbar className='dropbar'>
+      <DropdownButton bsSize='large' className='dropdown' title='button'> 
+        <MenuItem eventKey='1'>Add Item</MenuItem>
+      </DropdownButton>
+    </ButtonToolbar>
   }
 
   renderButtons() {
@@ -107,10 +105,10 @@ export default class ItemInput extends React.Component {
       onFocus:      this.handleShowDropdown.bind(this),
     }
 
-    return <div className='itemInput dropdown'>
+    return <div className='input-container'>
       <FormControl {...formControl} />
-      { this.renderDropdown() }
       { this.renderItemForm() }
-    </div>;
+      { this.renderDropdown() }
+    </div>
   }
 } 
