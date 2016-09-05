@@ -1,4 +1,3 @@
-import request from 'superagent';
 import { put, take, call } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import uuid from 'node-uuid';
@@ -7,25 +6,8 @@ import { uuidUnparse } from '../../utils/uuid-parser';
 import * as actions from '../utils/action-types';
 import * as itemFormAction from '../actions/item-form';
 
-function* postItem(payload) {
-  const itemsResponse = yield request
-    .post('http://localhost:3000/items/')
-    .send(payload); 
-
-  return (JSON.parse(itemsResponse.text));
-}
-
-function* postStoreItem(payload, storeIds) {
-  try {
-    const response = yield request
-      .post('http://localhost:3000/storeItems/')
-      .send({ payload, storeIds });
-
-    return { response: JSON.parse(response.text) };
-  } catch (err) {
-    return { err };
-  }
-}
+import * as itemApi from './api/item';
+import * as storeItemApi from './api/store-item';
 
 export function* addItem() {
   while (true) {
@@ -44,13 +26,13 @@ export function* addItem() {
     const itemId      = uuid.v4();
     const itemPayload = { id: itemId, title, brand };
 
-    const item = yield postItem(itemPayload);
+    const item = yield itemApi.postItem(itemPayload);
 
     // Post the item-store to the join table
     const payload  = { item_id: item.id, price, amount, units };
     const storeIds = [ uuidUnparse(storeId) ];
 
-    const { response, err } = yield postStoreItem(payload, storeIds);
+    const { response, err } = yield storeItemApi.postStoreItem(payload, storeIds);
 
     if (response) {
       if (response.duplicates.length > 0) {

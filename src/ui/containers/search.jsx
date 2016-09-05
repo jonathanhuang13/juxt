@@ -29,7 +29,7 @@ class Search extends React.Component {
     const { handleSubmit, router }  = this.props;
 
     handleSubmit(itemNames, storeNames);
-    //router.push('/results');
+    router.push('/results');
   }
 
   handleShowItemForm() {
